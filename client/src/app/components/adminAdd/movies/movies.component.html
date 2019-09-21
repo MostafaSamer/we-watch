@@ -1,0 +1,12 @@
+<form (ngSubmit)='onSubmit()' id="myForm">
+    <label for="">Temp Name: </label>
+    <select class="" name="temp" [(ngModel)]="newVideo.TempId">
+        <option value="{{t._id}}" *ngFor="let t of temps">{{t.name}}</option>
+    </select>
+    <button type="submit" name="button" *ngIf="!loading">Add</button>
+    <button type="button" name="button" *ngIf="loading" disabled>Loading...</button>
+    <div class="" *ngIf="err">
+        {{error_mess}}
+    </div>
+    <input type="file" name="filess" (change)="fileChange($event)" />
+</form>

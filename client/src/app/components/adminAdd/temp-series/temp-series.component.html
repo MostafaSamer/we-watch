@@ -1,0 +1,9 @@
+<form (ngSubmit)='onSubmit()' id="myForm">
+    <label for="">Temp Name: </label>
+    <input type="text" name="name" value="" [(ngModel)]="name">
+    <button type="submit" name="button" *ngIf="!loading">Add</button>
+    <button type="button" name="button" *ngIf="loading" disabled>Loading...</button>
+    <div class="" *ngIf="err">
+        {{error_mess}}
+    </div>
+</form>
