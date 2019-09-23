@@ -1,0 +1,13 @@
+<div class="row" style="padding: 20px;">
+    <div class="col-5">
+        <h1>We Watch</h1>
+    </div>
+    <div class="col-7">
+        <form  class="form-inline" (ngSubmit)='onSubmit()'>
+            <div class="form-group">
+                <input type="text" name="nameSearch" value="" [(ngModel)]="nameSearch" class="form-control" style="margin-right: 10px;">
+                <button type="submit" name="button" class="btn btn-primary">Seach</button>
+            </div>
+        </form>
+    </div>
+</div>

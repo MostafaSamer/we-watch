@@ -1,1 +1,19 @@
-<p>admin-home works!</p>
+<div class="container" style="margin-top: 20px;">
+    <div class="row">
+        <div class="col" style="margin-bottom: 20px;">
+            <a [routerLink]="['/admin-add-movies-temp']" ><button type="button" name="button" class="btn btn-primary float-right" style="width: 40%; height: 140%">Add New Temp Movie</button></a>
+        </div>
+        <div class="col" style="margin-bottom: 20px;">
+            <a [routerLink]="['/admin-add-series-temp']"><button  type="button" name="button" class="btn btn-primary float-left" style="width: 40%; height: 140%">Add New Temp Series</button></a>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col" style="margin-bottom: 20px;">
+            <a [routerLink]="['/admin-add-movies']"><button type="button" name="button" class="btn btn-primary float-right" style="width: 40%; height: 140%">Add New Movie</button></a>
+        </div>
+        <div class="col" style="margin-bottom: 20px;">
+            <a [routerLink]="['/admin-add-series']"><button  type="button" name="button" class="btn btn-primary float-left" style="width: 40%; height: 140%">Add New Episode</button></a>
+        </div>
+    </div>
+</div>

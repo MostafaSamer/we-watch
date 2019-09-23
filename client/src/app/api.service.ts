@@ -30,6 +30,12 @@ export class ApiService {
       }))
   }
 
+  public search(key) {
+      return this.http.post<any>(`${ConfigVariables.API_URL}user/search`, key).pipe(map((res: any)=> {
+          return res;
+      }))
+  }
+
   //*************************
   // ADMIN //
   //*************************

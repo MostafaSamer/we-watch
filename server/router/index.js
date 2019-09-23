@@ -44,7 +44,7 @@ router.post('/user/home/seriesOffset', (req, res)=> {
 })
 
 router.post('/user/search', (req, res)=> {
-    var name = req.body.name;
+    var name = req.body.key;
     data.searchVedios(name, (result)=> {
         res.json(result)
     })
@@ -56,8 +56,8 @@ router.post('/user/search', (req, res)=> {
 router.post('/admin/login', (req, res)=> {
     var email = req.body.email
     var pass = req.body.pass
-    var validEmail = 'admin@we_watch.com'
-    var validPass = 'root'
+    var validEmail = 'admin@email.com'
+    var validPass = 'admin'
     if (email == validEmail) {
         if (pass == validPass) {
             res.json(true)

@@ -1,8 +1,19 @@
-<div class="data" *ngFor="let i of dataM">
-    {{i.name}}
-</div>
-<div class="data" *ngFor="let i of dataS">
-    {{i.name}}
-    {{i.season}}
-    {{i.episode}}
+<div class="container text-center">
+    <app-navbar></app-navbar>
+    <div class="row" style="padding: 20px;">
+        <div class="col">
+            <div class="data" *ngFor="let i of dataM">
+                <a [routerLink]="['/view-temp', i.tempId]">{{i.name}}</a>
+            </div>
+        </div>
+        <div class="col">
+            <div class="data" *ngFor="let i of dataS">
+                <a [routerLink]="['/view-temp', i.tempId]">
+                    {{i.name}}
+                    Season: {{i.season}}
+                    Episode: {{i.episode}}
+                </a>
+            </div>
+        </div>
+    </div>
 </div>

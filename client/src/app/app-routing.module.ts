@@ -10,6 +10,8 @@ import { MoviesComponent } from './components/adminAdd/movies/movies.component';
 import { SeriesComponent } from './components/adminAdd/series/series.component';
 import { TempMovieComponent } from './components/adminAdd/temp-movie/temp-movie.component';
 import { TempSeriesComponent } from './components/adminAdd/temp-series/temp-series.component';
+import { VeiwTempComponent } from './components/veiw-temp/veiw-temp.component';
+import { SearchResultComponent } from './components/search-result/search-result.component';
 
 const routes: Routes = [
     {
@@ -52,6 +54,14 @@ const routes: Routes = [
     {
         path: 'admin-add-series',
         component: SeriesComponent
+    },
+    {
+        path: 'view-temp/:id',
+        component: VeiwTempComponent
+    },
+    {
+        path: 'search/:name',
+        component: SearchResultComponent
     },
 ];
 

@@ -1,10 +1,22 @@
-<form (ngSubmit)='onSubmit()'>
-    <label for="">Email: </label>
-    <input type="email" name="email" value="" [(ngModel)]="loginEmail">
-    <label for="">Password: </label>
-    <input type="password" name="pass" value="" [(ngModel)]="loginPass">
-    <button type="submit" name="button">Login</button>
-    <div class="" *ngIf="err">
-        {{error_mess}}
-    </div>
-</form>
+<div class="container">
+    <br>
+    <h2 class="text-center">Login</h2>
+    <br>
+    <form (ngSubmit)='onSubmit()'>
+        <div class="from-group">
+            <label for="email">Email: </label>
+            <input class="form-control" type="email" name="email" value="" [(ngModel)]="loginEmail">
+            <br>
+            <label for="pass">Password: </label>
+            <input class="form-control" type="password" name="pass" value="" [(ngModel)]="loginPass">
+            <br>
+            <div class="text-center">
+                <div class="alert alert-danger" *ngIf="err">
+                    {{error_mess}}
+                </div>
+                <br>
+                <button type="submit" name="button" class="btn btn-primary btn-lg">Login</button>
+            </div>
+        </div>
+    </form>
+</div>

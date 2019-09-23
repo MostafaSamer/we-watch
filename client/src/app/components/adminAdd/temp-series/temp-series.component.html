@@ -1,9 +1,16 @@
-<form (ngSubmit)='onSubmit()' id="myForm">
-    <label for="">Temp Name: </label>
-    <input type="text" name="name" value="" [(ngModel)]="name">
-    <button type="submit" name="button" *ngIf="!loading">Add</button>
-    <button type="button" name="button" *ngIf="loading" disabled>Loading...</button>
-    <div class="" *ngIf="err">
-        {{error_mess}}
-    </div>
-</form>
+<div class="container">
+    <br>
+    <h2 class="text-center">Add New Temp Movie</h2>
+    <br>
+    <form (ngSubmit)='onSubmit()' id="myForm">
+        <div class="form-group">
+            <label for="">Temp Name: </label>
+            <input type="text" class="form-control" name="name" value="" [(ngModel)]="name">
+            <br>
+            <div class="text-center">
+                <button type="submit" name="button" *ngIf="!loading" class="btn btn-primary">Add</button>
+                <button type="button" name="button" *ngIf="loading" disabled class="btn btn-primary">Loading...</button>
+            </div>
+        </div>
+    </form>
+</div>

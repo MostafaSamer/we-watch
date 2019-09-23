@@ -349,8 +349,23 @@ var getDataOffsetSeries = function(offset, callback) {
 // Array of Object -> Found;
 // Empty Array -> Not Found;
 // String -> Error Message;
-var searchVedios = function(name, callback) {
-
+var searchVedios = function(key, callback) {
+    var list = [];
+    movieModel.find({"name": {'$regex': key}}, (err, docs)=> {
+        if (!err) {
+            list.push(docs);
+            seriesModel.find({"name": {'$regex': key}}, (err, docs)=> {
+                if (!err) {
+                    list.push(docs)
+                    callback(list)
+                } else {
+                    console.log("Error in Searching in Series");
+                }
+            })
+        } else {
+            console.log("Error in Searching in Movies");
+        }
+    })
 }
 
 // String -> Status
