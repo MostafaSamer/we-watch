@@ -118,6 +118,18 @@ export class ApiService {
       }))
   }
 
+  public getMoviebyTempId(tempId) {
+      return this.http.post<any>(`${ConfigVariables.API_URL}movies/getByTempId`, tempId).pipe(map((res)=> {
+          return res
+      }))
+  }
+
+  public getMoviebyIDS(id) {
+      return this.http.post<any>(`${ConfigVariables.API_URL}movies/getById`, id).pipe(map((res)=> {
+          return res
+      }))
+  }
+
   //*************************
   // SERIES //
   //*************************
@@ -135,6 +147,18 @@ export class ApiService {
           'oldName': fileOldName,
           'newData': originalData
       }).pipe(map((res)=> {
+          return res
+      }))
+  }
+
+  public getSeriesbyTempId(tempId) {
+      return this.http.post<any>(`${ConfigVariables.API_URL}series/getByTempId`, tempId).pipe(map((res)=> {
+          return res
+      }))
+  }
+
+  public getSeriesbyIDS(id) {
+      return this.http.post<any>(`${ConfigVariables.API_URL}series/getById`, id).pipe(map((res)=> {
           return res
       }))
   }

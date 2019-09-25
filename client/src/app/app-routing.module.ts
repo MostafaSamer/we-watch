@@ -11,6 +11,8 @@ import { SeriesComponent } from './components/adminAdd/series/series.component';
 import { TempMovieComponent } from './components/adminAdd/temp-movie/temp-movie.component';
 import { TempSeriesComponent } from './components/adminAdd/temp-series/temp-series.component';
 import { VeiwTempComponent } from './components/veiw-temp/veiw-temp.component';
+import { ViewVideoMoviesComponent } from './components/view-video-movies/view-video-movies.component';
+import { ViewVideoSeriesComponent } from './components/view-video-series/view-video-series.component';
 import { SearchResultComponent } from './components/search-result/search-result.component';
 
 const routes: Routes = [
@@ -56,8 +58,17 @@ const routes: Routes = [
         component: SeriesComponent
     },
     {
-        path: 'view-temp/:id',
+        path: 'view-temp/:type/:id',
         component: VeiwTempComponent
+    },
+    {
+        path: 'view-video-movies/:id',
+        component: ViewVideoMoviesComponent
+
+    },
+    {
+        path: 'view-video-series/:id',
+        component: ViewVideoSeriesComponent
     },
     {
         path: 'search/:name',

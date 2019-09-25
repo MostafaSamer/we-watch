@@ -219,7 +219,7 @@ var insertDataSeries = function(videoData, callback) {
 // Resolve Object -> found;
 // Resolve null -> not Found;
 // Reject String -> Error Message;
-var getMovieNamebyID = function(id, callback) {
+var getMoviebyID = function(id, callback) {
     return new Promise(function(resolve, reject) {
         movieModel.findOne({_id: id}, (err, docs)=> {
             if (!err) {
@@ -234,7 +234,7 @@ var getMovieNamebyID = function(id, callback) {
 // Resolve Object -> found;
 // Resolve null -> not Found;
 // Reject String -> Error Message;
-var getSeriesNamebyID = function(id, callback) {
+var getSeriesbyID = function(id, callback) {
     return new Promise(function(resolve, reject) {
         seriesModel.findOne({_id: id}, (err, docs)=> {
             if (!err) {
@@ -243,6 +243,58 @@ var getSeriesNamebyID = function(id, callback) {
                 return reject("Error in getting Series by Id")
             }
         })
+    })
+}
+
+// Object -> found;
+// null -> not Found;
+// String -> Error Message;
+var getMoviebyIDS = function(id, callback) {
+    movieModel.findOne({_id: id}, (err, docs)=> {
+        if (!err) {
+            callback(docs)
+        } else {
+            callback("Error in getting Movie by Id")
+        }
+    })
+}
+
+// Object -> found;
+// null -> not Found;
+// String -> Error Message;
+var getSeriesbyIDS = function(id, callback) {
+    seriesModel.findOne({_id: id}, (err, docs)=> {
+        if (!err) {
+            callback(docs)
+        } else {
+            callback("Error in getting Series by Id")
+        }
+    })
+}
+
+// Object -> found;
+// null -> not Found;
+// String -> Error Message;
+var getMoviebyTempId = function(tempId, callback) {
+    movieModel.findOne({tempId: tempId}, (err, docs)=> {
+        if (!err) {
+            callback(docs);
+        } else {
+            callback("Error in finding Movie by Temp ID")
+        }
+    })
+}
+
+// Array -> found;
+// null -> not Found;
+// String -> Error Message;
+var getSeriesbyTempId = function(tempId, callback) {
+    seriesModel.find({tempId: tempId}, (err, docs)=> {
+        if (!err) {
+            callback(docs);
+        } else {
+            callback("Error in finding Movie by Temp ID")
+        }
     })
 }
 
@@ -302,7 +354,7 @@ var getDataOffsetMovie = function(offset, callback) {
         if ((offset*10) <= len) {
             var arr = docs.Movieids.slice((offset*10)-10, (offset*10));
             for (var i in arr) {
-                promises.push(getMovieNamebyID(arr[i]))
+                promises.push(getMoviebyID(arr[i]))
             }
             Promise.all(promises)
             .then(function(data){ callback(data) })
@@ -310,7 +362,7 @@ var getDataOffsetMovie = function(offset, callback) {
         } else if ((offset*10) > len) {
             var arr = docs.Movieids.slice((offset*10)-10, len);
             for (var i in arr) {
-                promises.push(getMovieNamebyID(arr[i]))
+                promises.push(getMoviebyID(arr[i]))
             }
             Promise.all(promises)
             .then(function(data){ callback(data) })
@@ -329,7 +381,7 @@ var getDataOffsetSeries = function(offset, callback) {
         if ((offset*10) <= len) {
             var arr = docs.Seriesids.slice((offset*10)-10, (offset*10));
             for (var i in arr) {
-                promises.push(getSeriesNamebyID(arr[i]))
+                promises.push(getSeriesbyID(arr[i]))
             }
             Promise.all(promises)
             .then(function(data){ callback(data) })
@@ -337,7 +389,7 @@ var getDataOffsetSeries = function(offset, callback) {
         } else if ((offset*10) > len) {
             var arr = docs.Seriesids.slice((offset*10)-10, len);
             for (var i in arr) {
-                promises.push(getSeriesNamebyID(arr[i]))
+                promises.push(getSeriesbyID(arr[i]))
             }
             Promise.all(promises)
             .then(function(data){ callback(data) })
@@ -388,6 +440,10 @@ module.exports = {
     getTempSeriesById: getTempSeriesById,
     getDataOffsetMovie: getDataOffsetMovie,
     getDataOffsetSeries: getDataOffsetSeries,
+    getMoviebyIDS: getMoviebyIDS,
+    getSeriesbyIDS: getSeriesbyIDS,
+    getMoviebyTempId: getMoviebyTempId,
+    getSeriesbyTempId: getSeriesbyTempId,
 };
 
 
@@ -399,13 +455,13 @@ var getDataOffsetMovie = function(offset, callback) {
     lastAddedModel.findOne({_id: idOfObjectLast}, (err, docs)=> {
         var len = docs.Movieids.length
         if ((offset*10) <= len) {
-            getMovieNamebyID(docs.Movieids.slice((offset*10)-10, (offset*10)))
+            getMoviebyID(docs.Movieids.slice((offset*10)-10, (offset*10)))
             .then(function(res) {
                 callback(res)
             })
         } else if ((offset*10) > len) {
             console.log(456);
-            getMovieNamebyID(docs.Movieids.slice((offset*10)-10, len), (result)=> {
+            getMoviebyID(docs.Movieids.slice((offset*10)-10, len), (result)=> {
                 callback(result)
             })
         }
@@ -417,19 +473,19 @@ var getDataOffsetSeries = function(offset, callback) {
         var len = docs.Seriesids.length
         if ((offset*10) <= len) {
             console.log(123);
-            getSeriesNamebyID(docs.Seriesids.slice((offset*10)-10, (offset*10)), (result)=> {
+            getSeriesbyID(docs.Seriesids.slice((offset*10)-10, (offset*10)), (result)=> {
                 callback(result)
             })
         } else if ((offset*10) > len) {
             console.log(456);
-            getSeriesNamebyID(docs.Seriesids.slice((offset*10)-10, len), (result)=> {
+            getSeriesbyID(docs.Seriesids.slice((offset*10)-10, len), (result)=> {
                 callback(result)
             })
         }
     })
 }
 
-var getMovieNamebyID = function(ids) {
+var getMoviebyID = function(ids) {
     var list = [];
     return new Promise(function(reslove, reject) {
         for (var i = 0; i<ids.length; i++) {
@@ -455,7 +511,7 @@ var getMovieNamebyID = function(ids) {
 
 }
 
-var getSeriesNamebyID = function(ids, callback) {
+var getSeriesbyID = function(ids, callback) {
     var list = [];
     for (var i = 0; i<ids.length; i++) {
         seriesModel.findOne({_id: ids[i]}, (err, docs)=> {

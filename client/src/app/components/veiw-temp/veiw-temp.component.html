@@ -1,1 +1,25 @@
 <p>veiw-temp works!</p>
+<!-- Testing -->
+
+<div class="" *ngIf="tempType == 'movies'">
+    <a [routerLink]="['/view-video-movies', videoDataM._id]">
+    Watch Now
+    </a>
+</div>
+
+<div class="" *ngIf="tempType == 'series'">
+    <div class="" *ngFor="let i of videoDataS">
+        {{i.name}} {{i.season}} {{i.episode}}
+        <a [routerLink]="['/view-video-series', i._id]">
+            Watch Now
+        </a>
+    </div>
+</div>
+
+
+<!--
+<a [routerLink]="['/view-video-series']">
+    Watch Now
+    </a>
+
+    -->

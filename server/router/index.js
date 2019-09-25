@@ -29,6 +29,82 @@ router.post('/user/register',(req, res)=> {
     })
 })
 
+router.get('/user/watch/movies', (req, res)=> {
+    var id = req.query.id;
+    console.log(id)
+    data.getMoviebyIDS(id, (result)=> {
+        const path = result.loc
+        const stat = fs.statSync(path)
+        const fileSize = stat.size
+        const range = req.headers.range
+
+        if (range) {
+            const parts = range.replace(/bytes=/, "").split("-")
+            const start = parseInt(parts[0], 10)
+            const end = parts[1]
+            ? parseInt(parts[1], 10)
+            : fileSize-1
+
+            const chunksize = (end-start)+1
+            const file = fs.createReadStream(path, {start, end})
+            const head = {
+                'Content-Range': `bytes ${start}-${end}/${fileSize}`,
+                'Accept-Ranges': 'bytes',
+                'Content-Length': chunksize,
+                'Content-Type': 'video/mp4',
+            }
+
+            res.writeHead(206, head)
+            file.pipe(res)
+        } else {
+            const head = {
+                'Content-Length': fileSize,
+                'Content-Type': 'video/mp4',
+            }
+            res.writeHead(200, head)
+            fs.createReadStream(path).pipe(res)
+        }
+    })
+})
+
+router.get('/user/watch/series', (req, res)=> {
+    var id = req.query.id;
+    console.log(id)
+    data.getSeriesbyIDS(id, (result)=> {
+        const path = result.loc
+        const stat = fs.statSync(path)
+        const fileSize = stat.size
+        const range = req.headers.range
+
+        if (range) {
+            const parts = range.replace(/bytes=/, "").split("-")
+            const start = parseInt(parts[0], 10)
+            const end = parts[1]
+            ? parseInt(parts[1], 10)
+            : fileSize-1
+
+            const chunksize = (end-start)+1
+            const file = fs.createReadStream(path, {start, end})
+            const head = {
+                'Content-Range': `bytes ${start}-${end}/${fileSize}`,
+                'Accept-Ranges': 'bytes',
+                'Content-Length': chunksize,
+                'Content-Type': 'video/mp4',
+            }
+
+            res.writeHead(206, head)
+            file.pipe(res)
+        } else {
+            const head = {
+                'Content-Length': fileSize,
+                'Content-Type': 'video/mp4',
+            }
+            res.writeHead(200, head)
+            fs.createReadStream(path).pipe(res)
+        }
+    })
+})
+
 router.post('/user/home/moviesOffset', (req, res)=> {
     var offset = req.body.offset;
     data.getDataOffsetMovie(offset, (result)=> {
@@ -141,6 +217,21 @@ router.post('/admin/upload/movies/originalDataAndName', (req, res)=> {
     })
 })
 
+router.post('/movies/getByTempId', (req, res)=> {
+    var tempId = req.body.tempId;
+    data.getMoviebyTempId(tempId, (result)=> {
+        res.json(result)
+    })
+})
+
+router.post('/movies/getById', (req, res)=> {
+    var id = req.body.id;
+    data.getMoviebyIDS(id, (result)=> {
+        res.json(result)
+    })
+})
+
+
 //*************************
 // SERIES //
 //*************************
@@ -173,6 +264,20 @@ router.post('/admin/upload/series/originalDataAndName', (req, res)=> {
                 res.json("Error in Moving the new video")
             }
         })
+    })
+})
+
+router.post('/series/getByTempId', (req, res)=> {
+    var tempId = req.body.tempId;
+    data.getSeriesbyTempId(tempId, (result)=> {
+        res.json(result)
+    })
+})
+
+router.post('/series/getById', (req, res)=> {
+    var id = req.body.id;
+    data.getSeriesbyIDS(id, (result)=> {
+        res.json(result)
     })
 })
 

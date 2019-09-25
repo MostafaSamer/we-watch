@@ -3,12 +3,12 @@
     <div class="row" style="padding: 20px;">
         <div class="col">
             <div class="data" *ngFor="let i of dataM">
-                <a [routerLink]="['/view-temp', i.tempId]">{{i.name}}</a>
+                <a [routerLink]="['/view-temp', 'movies', i.tempId]">{{i.name}}</a>
             </div>
         </div>
         <div class="col">
             <div class="data" *ngFor="let i of dataS">
-                <a [routerLink]="['/view-temp', i.tempId]">
+                <a [routerLink]="['/view-temp', 'series', i.tempId]">
                     {{i.name}}
                     Season: {{i.season}}
                     Episode: {{i.episode}}

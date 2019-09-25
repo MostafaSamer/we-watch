@@ -11,7 +11,6 @@ import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
 import { AdminLoginComponent } from './components/admin-login/admin-login.component';
 import { AdminHomeComponent } from './components/admin-home/admin-home.component';
-import { AdminAddComponent } from './components/admin-add/admin-add.component';
 import { SeriesComponent } from './components/adminAdd/series/series.component';
 import { MoviesComponent } from './components/adminAdd/movies/movies.component';
 import { TempMovieComponent } from './components/adminAdd/temp-movie/temp-movie.component';
@@ -19,6 +18,8 @@ import { TempSeriesComponent } from './components/adminAdd/temp-series/temp-seri
 import { VeiwTempComponent } from './components/veiw-temp/veiw-temp.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { SearchResultComponent } from './components/search-result/search-result.component';
+import { ViewVideoMoviesComponent } from './components/view-video-movies/view-video-movies.component';
+import { ViewVideoSeriesComponent } from './components/view-video-series/view-video-series.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,6 @@ import { SearchResultComponent } from './components/search-result/search-result.
     HomeComponent,
     AdminLoginComponent,
     AdminHomeComponent,
-    AdminAddComponent,
     FileSelectDirective,
     SeriesComponent,
     MoviesComponent,
@@ -37,6 +37,8 @@ import { SearchResultComponent } from './components/search-result/search-result.
     VeiwTempComponent,
     NavbarComponent,
     SearchResultComponent,
+    ViewVideoMoviesComponent,
+    ViewVideoSeriesComponent,
   ],
   imports: [
     BrowserModule,
