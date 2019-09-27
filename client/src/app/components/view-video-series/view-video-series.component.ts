@@ -25,7 +25,8 @@ export class ViewVideoSeriesComponent implements OnInit {
           id: this.videoId,
       }).pipe().subscribe(data=> {
           console.log(data)
-          this.canLoad = true
+          this.videoData = data
+          this.canLoad = true;
       })
   }
 

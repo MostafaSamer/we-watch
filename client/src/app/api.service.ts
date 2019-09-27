@@ -24,6 +24,12 @@ export class ApiService {
       }))
   }
 
+  public numberOfvideos() {
+      return this.http.get(`${ConfigVariables.API_URL}user/home/numberOfvideos`).pipe(map((res)=> {
+          return res
+      }))
+  }
+
   public register(user) {
       return this.http.post<any>(`${ConfigVariables.API_URL}user/register`, user).pipe(map((res: any)=> {
           return res;

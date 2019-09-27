@@ -398,6 +398,19 @@ var getDataOffsetSeries = function(offset, callback) {
     })
 }
 
+var numberOfvideos = function(callback) {
+    lastAddedModel.find({}, (err, docs)=> {
+        if (!err) {
+            callback({
+                m: docs[0].Movieids.length,
+                s: docs[0].Seriesids.length,
+            })
+        } else {
+            console.log("Error getting number if videos");
+        }
+    })
+}
+
 // Array of Object -> Found;
 // Empty Array -> Not Found;
 // String -> Error Message;
@@ -444,6 +457,7 @@ module.exports = {
     getSeriesbyIDS: getSeriesbyIDS,
     getMoviebyTempId: getMoviebyTempId,
     getSeriesbyTempId: getSeriesbyTempId,
+    numberOfvideos: numberOfvideos
 };
 
 

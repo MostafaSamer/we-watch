@@ -16,4 +16,17 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col">
+            <button type="button" name="button" *ngIf="!preButtonDisable" class="btn btn-primary" (click)="prePage()">Previse</button>
+            <button type="button" name="button" *ngIf="preButtonDisable" class="btn btn-primary" (click)="prePage()" disabled>Previse</button>
+        </div>
+        <div class="col">
+            {{ offset }}
+        </div>
+        <div class="col">
+            <button type="button" name="button" *ngIf="!nextButtonDisable" class="btn btn-primary" (click)="nextPage()">Next</button>
+            <button type="button" name="button" *ngIf="nextButtonDisable" class="btn btn-primary" (click)="nextPage()" disabled>Next</button>
+        </div>
+    </div>
 </div>

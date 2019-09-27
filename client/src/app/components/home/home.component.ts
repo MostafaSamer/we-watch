@@ -10,7 +10,11 @@ export class HomeComponent implements OnInit {
 
     dataM = [];
     dataS = [];
+    //Paging
     offset = 1;
+    maxOffset;
+    preButtonDisable = false;
+    nextButtonDisable = false;
 
   constructor(
       private api: ApiService,
@@ -25,6 +29,34 @@ export class HomeComponent implements OnInit {
           this.dataS = data
           console.log(data)
       })
+      this.api.numberOfvideos().pipe().subscribe((data: any)=> {
+          if(data.s > data.m) {
+              this.maxOffset = +(''+data.s)[0]+1
+          } else {
+              this.maxOffset = +(''+data.m)[0]+1
+          }
+          console.log("MaxOffset: " + this.maxOffset)
+      })
+      if(this.offset == 1) {
+          this.preButtonDisable = true;
+      } else {
+          this.preButtonDisable = false;
+      }
+      if(this.offset == this.maxOffset) {
+          this.nextButtonDisable = true;
+      } else {
+          this.nextButtonDisable = false;
+      }
+  }
+
+  nextPage() {
+      this.offset++;
+      this.ngOnInit();
+  }
+
+  prePage() {
+      this.offset--;
+      this.ngOnInit();
   }
 
 }

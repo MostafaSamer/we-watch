@@ -105,6 +105,12 @@ router.get('/user/watch/series', (req, res)=> {
     })
 })
 
+router.get('/user/home/numberOfvideos', (req, res)=> {
+    data.numberOfvideos((result)=> {
+        res.json(result)
+    })
+})
+
 router.post('/user/home/moviesOffset', (req, res)=> {
     var offset = req.body.offset;
     data.getDataOffsetMovie(offset, (result)=> {
