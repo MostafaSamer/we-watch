@@ -1,5 +1,6 @@
 const router = require('express').Router();
 var multer  = require('multer')
+const path = require('path');
 var DIR = 'videos/';
 var upload = multer({ dest: DIR })
 const data = require('../data/index');
@@ -105,6 +106,31 @@ router.get('/user/watch/series', (req, res)=> {
     })
 })
 
+router.get('/user/movies/poster', (req, res)=> {
+    var id = req.query.id;
+    data.getMoviebyIDS(id, (result)=> {
+        console.log(result.posterLoc)
+        if (result.posterLoc != undefined) {
+            res.sendFile(path.resolve(path.resolve(__dirname + '/..', result.posterLoc)))
+        } else {
+            res.json();
+        }
+    })
+})
+
+router.get('/user/series/poster', (req, res)=> {
+    var id = req.query.id;
+    data.getSeriesbyIDS(id, (result)=> {
+        console.log(result.posterLoc)
+        //res.sendFile(result.posterLoc)
+        if (result.posterLoc != undefined) {
+            res.sendFile(path.resolve(path.resolve(__dirname + '/..', result.posterLoc)))
+        } else {
+            res.json();
+        }
+    })
+})
+
 router.get('/user/home/numberOfvideos', (req, res)=> {
     data.numberOfvideos((result)=> {
         res.json(result)
@@ -162,19 +188,53 @@ router.post('/admin/delete', (req, res)=> {
 //*************************
 // Temps //
 //*************************
-router.post('/admin/add/moviesTemp', (req, res)=> {
-    data.insertTempMovie({
-        name: req.body.name
-    }, (result)=> {
-        res.json(result)
+router.post('/admin/add/moviesTemp/poster', upload.single('filess'), (req, res)=> {
+    res.json(req.file.filename);
+})
+
+router.post('/admin/add/moviesTemp/data', (req, res)=> {
+    var oldName = req.body.oldName;
+    var newData = req.body.new;
+    var oldPath = DIR + oldName
+    var newPath = DIR + 'movies/' + newData.name + '/' + newData.name + '.jpg'
+    if (!fs.existsSync(DIR + 'movies/' + newData.name)){
+        fs.mkdirSync(DIR + 'movies/' + newData.name, { recursive: true });
+    }
+    fs.rename(oldPath, newPath, function (err) {
+        if(!err) {
+            newData.posterLoc = newPath;
+            data.insertTempMovie(newData, (result)=> {
+                console.log(result);
+                res.json(result)
+            })
+        } else {
+            res.json("Error in Moving the new video")
+        }
     })
 })
 
-router.post('/admin/add/seriesTemp', (req, res)=> {
-    data.insertTempSeries({
-        name: req.body.name
-    }, (result)=> {
-        res.json(result)
+router.post('/admin/add/seriesTemp/poster', upload.single('filess'), (req, res)=> {
+    res.json(req.file.filename);
+})
+
+router.post('/admin/add/seriesTemp/data', (req, res)=> {
+
+    var oldName = req.body.oldName;
+    var newData = req.body.new;
+    var oldPath = DIR + oldName
+    var newPath = DIR + 'tv/' + newData.name + '/' + newData.name + '.jpg'
+    if (!fs.existsSync(DIR + 'tv/' + newData.name)){
+        fs.mkdirSync(DIR + 'tv/' + newData.name, { recursive: true });
+    }
+    fs.rename(oldPath, newPath, function (err) {
+        if(!err) {
+            newData.posterLoc = newPath;
+            data.insertTempSeries(newData, (result)=> {
+                res.json(result)
+            })
+        } else {
+            res.json("Error in Moving the new video")
+        }
     })
 })
 
@@ -212,7 +272,8 @@ router.post('/admin/upload/movies/originalDataAndName', (req, res)=> {
                 data.insertDataMovie({
                     name: result.name,
                     tempId: newData.TempId,
-                    loc: newPath
+                    loc: newPath,
+                    posterLoc: result.posterLoc,
                 }, (result)=> {
                     res.json(result)
                 })
@@ -262,7 +323,8 @@ router.post('/admin/upload/series/originalDataAndName', (req, res)=> {
                     tempId: newData.TempId,
                     season: newData.season,
                     episode: newData.episode,
-                    loc: newPath
+                    loc: newPath,
+                    posterLoc: result.posterLoc,
                 }, (result)=> {
                     res.json(result)
                 })

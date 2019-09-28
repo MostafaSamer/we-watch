@@ -10,6 +10,7 @@ export class TempMovieComponent implements OnInit {
 
     name;
     returned_data;
+    formData: any = new FormData();
     loading = false;
 
   constructor(
@@ -19,11 +20,17 @@ export class TempMovieComponent implements OnInit {
   ngOnInit() {
   }
 
+  fileChange(event) {
+      this.formData.delete('filess');
+      this.formData.append('filess', event.target.files[0]);
+  }
+
+
   onSubmit() {
       this.loading = true
       this.api.addNewTempsMovies({
           name: this.name
-      }).pipe().subscribe(data=> {
+      }, this.formData).pipe().subscribe(data=> {
           console.log(data)
           this.loading = false
           this.returned_data = data

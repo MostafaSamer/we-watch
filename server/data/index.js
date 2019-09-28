@@ -17,7 +17,8 @@ const movieSchema = new Schema({
     name: String,
     tempId: String,
     addDate: {type: Date, default: Date.now()},
-    loc: String
+    loc: String,
+    posterLoc: String,
 })
 const seriesSchema = new Schema({
     name: String,
@@ -25,7 +26,8 @@ const seriesSchema = new Schema({
     season: {type: String, Default: "0"},
     episode: {type: String, Default: "0"},
     addDate: {type: Date, default: Date.now()},
-    loc: String
+    loc: String,
+    posterLoc: String,
 })
 const lastAdded = new Schema({
     Movieids: Array,
@@ -33,10 +35,12 @@ const lastAdded = new Schema({
 })
 const movieTemp = new Schema({
     name: String,
+    posterLoc: String,
     hasMovie: {type: Boolean, default: false}
 })
 const seriesTemp = new Schema({
-    name: String
+    name: String,
+    posterLoc: String,
 })
 
 // Model

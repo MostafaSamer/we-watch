@@ -90,15 +90,37 @@ export class ApiService {
       }))
   }
 
-  public addNewTempsMovies(tempData) {
-      return this.http.post<any>(`${ConfigVariables.API_URL}admin/add/moviesTemp`, tempData
-      ).pipe(map((res)=> {
+  public addNewTempsMovies(data, posterData) {
+      return this.http.post<any>(`${ConfigVariables.API_URL}admin/add/moviesTemp/poster`, posterData).pipe(map((res)=> {
+          this.addNewTempsMoviesData(res, data).pipe().subscribe(data=> {
+              return data;
+          })
+      }))
+  }
+
+  private addNewTempsMoviesData(oldName, newData) {
+      return this.http.post<any>(`${ConfigVariables.API_URL}admin/add/moviesTemp/data`, {
+          new: newData,
+          oldName: oldName
+      }).pipe(map((res)=> {
           return res
       }))
   }
-  public addNewTempSeries(tempData) {
-      return this.http.post<any>(`${ConfigVariables.API_URL}admin/add/seriesTemp`, tempData
-      ).pipe(map((res)=> {
+
+
+  public addNewTempSeries(data, posterData) {
+      return this.http.post<any>(`${ConfigVariables.API_URL}admin/add/seriesTemp/poster`, posterData).pipe(map((res)=> {
+          this.addNewTempsSeriesData(res, data).pipe().subscribe(data=> {
+              return data;
+          })
+      }))
+  }
+
+  private addNewTempsSeriesData(oldName, newData) {
+      return this.http.post<any>(`${ConfigVariables.API_URL}admin/add/seriesTemp/data`, {
+          new: newData,
+          oldName: oldName
+      }).pipe(map((res)=> {
           return res
       }))
   }

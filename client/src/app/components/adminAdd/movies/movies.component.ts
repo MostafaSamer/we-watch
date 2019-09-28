@@ -28,6 +28,7 @@ export class MoviesComponent implements OnInit {
   }
 
   fileChange(event) {
+      this.formData.delete('filess');
       this.formData.append('filess', event.target.files[0]);
   }
 

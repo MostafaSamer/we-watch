@@ -28,6 +28,7 @@ export class VeiwTempComponent implements OnInit {
           this.api.getMoviebyTempId({
               tempId: this.tempId,
           }).pipe().subscribe(data=> {
+              console.log(data)
               this.videoDataM = data;
               console.log(this.videoDataM)
           })
