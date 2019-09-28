@@ -1,1 +1,34 @@
-<p>search-result works!</p>
+<div class="container text-center">
+    <app-navbar></app-navbar>
+    <div class="row" style="padding: 20px;">
+        <div class="col">
+            <div class="data" *ngFor="let i of dataM">
+                <img src="http://localhost:3000/user/Tempmovies/poster?id={{i._id}}" alt="" style="width: 200px; height: 100px">
+                <a [routerLink]="['/view-temp', 'movies', i._id]">{{i.name}}</a>
+            </div>
+        </div>
+        <div class="col">
+            <div class="data" *ngFor="let i of dataS">
+                <img src="http://localhost:3000/user/Tempseries/poster?id={{i._id}}" alt="" style="width: 200px; height: 100px">
+                <a [routerLink]="['/view-temp', 'series', i._id]">
+                    {{i.name}}
+                </a>
+            </div>
+        </div>
+    </div>
+    <!--
+    <div class="row">
+        <div class="col">
+            <button type="button" name="button" *ngIf="!preButtonDisable" class="btn btn-primary" (click)="prePage()">Previse</button>
+            <button type="button" name="button" *ngIf="preButtonDisable" class="btn btn-primary" (click)="prePage()" disabled>Previse</button>
+        </div>
+        <div class="col">
+            {{ offset }}
+        </div>
+        <div class="col">
+            <button type="button" name="button" *ngIf="!nextButtonDisable" class="btn btn-primary" (click)="nextPage()">Next</button>
+            <button type="button" name="button" *ngIf="nextButtonDisable" class="btn btn-primary" (click)="nextPage()" disabled>Next</button>
+        </div>
+    </div>
+    -->
+</div>

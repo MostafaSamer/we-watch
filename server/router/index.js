@@ -131,6 +131,31 @@ router.get('/user/series/poster', (req, res)=> {
     })
 })
 
+router.get('/user/Tempmovies/poster', (req, res)=> {
+    var id = req.query.id;
+    data.getTempMovieById(id, (result)=> {
+        console.log(result.posterLoc)
+        if (result.posterLoc != undefined) {
+            res.sendFile(path.resolve(path.resolve(__dirname + '/..', result.posterLoc)))
+        } else {
+            res.json();
+        }
+    })
+})
+
+router.get('/user/Tempseries/poster', (req, res)=> {
+    var id = req.query.id;
+    data.getTempSeriesById(id, (result)=> {
+        console.log(result.posterLoc)
+        //res.sendFile(result.posterLoc)
+        if (result.posterLoc != undefined) {
+            res.sendFile(path.resolve(path.resolve(__dirname + '/..', result.posterLoc)))
+        } else {
+            res.json();
+        }
+    })
+})
+
 router.get('/user/home/numberOfvideos', (req, res)=> {
     data.numberOfvideos((result)=> {
         res.json(result)

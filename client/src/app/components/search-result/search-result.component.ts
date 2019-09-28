@@ -10,7 +10,8 @@ import { ApiService } from '../../api.service'
 export class SearchResultComponent implements OnInit {
 
     searchName;
-    data
+    dataM;
+    dataS;
 
   constructor(
       private router: ActivatedRoute,
@@ -23,6 +24,8 @@ export class SearchResultComponent implements OnInit {
           key: this.searchName
       }).pipe().subscribe(data=> {
           console.log(data)
+          this.dataM = data[0]
+          this.dataS = data[1]
       })
   }
 

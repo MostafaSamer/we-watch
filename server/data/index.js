@@ -420,12 +420,13 @@ var numberOfvideos = function(callback) {
 // String -> Error Message;
 var searchVedios = function(key, callback) {
     var list = [];
-    movieModel.find({"name": {'$regex': key}}, (err, docs)=> {
+    movieTempModel.find({"name": {'$regex': key}, "hasMovie": true}, (err, docs)=> {
         if (!err) {
             list.push(docs);
-            seriesModel.find({"name": {'$regex': key}}, (err, docs)=> {
+            seriesTempModel.find({"name": {'$regex': key}}, (err, docs)=> {
                 if (!err) {
                     list.push(docs)
+                    // TODO: PAGGING THE SEARCH, SEND DATA LIKE 1 OF 5 PAGES
                     callback(list)
                 } else {
                     console.log("Error in Searching in Series");
