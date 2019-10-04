@@ -183,6 +183,28 @@ router.post('/user/search', (req, res)=> {
     })
 })
 
+router.post('/user/movies/addFav', (req, res)=>{
+    data.addFavMovie(req.body.userId, req.body.tempId);
+    data.fav_CounterMovies(req.body.tempId)
+    res.json("Mostfa")
+})
+
+router.post('/user/Series/addFav', (req, res)=>{
+    data.addFavSerie(req.body.userId, req.body.tempId);
+    data.fav_CounterSeries(req.body.tempId)
+})
+
+router.post('/user/movies/delFav', (req, res)=>{
+    data.delFavMovie(req.body.userId, req.body.tempId);
+    data.unfav_CounterMovies(req.body.tempId)
+    res.json("Mostfa")
+})
+
+router.post('/user/Series/delFav', (req, res)=>{
+    data.delFavSerie(req.body.userId, req.body.tempId);
+    data.unfav_CounterSeries(req.body.tempId)
+})
+
 //*************************
 // ADMIN //
 //*************************

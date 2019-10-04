@@ -11,7 +11,8 @@ mongoose.connect('mongodb://localhost/we_watch', {
 // Schema
 const userSchema = new Schema({
     email: String,
-    pass: String
+    pass: String,
+    list: Array,
 })
 const movieSchema = new Schema({
     name: String,
@@ -36,11 +37,13 @@ const lastAdded = new Schema({
 const movieTemp = new Schema({
     name: String,
     posterLoc: String,
-    hasMovie: {type: Boolean, default: false}
+    hasMovie: {type: Boolean, default: false},
+    fav_Counter: Number,
 })
 const seriesTemp = new Schema({
     name: String,
     posterLoc: String,
+    fav_Counter: Number,
 })
 
 // Model
@@ -302,6 +305,138 @@ var getSeriesbyTempId = function(tempId, callback) {
     })
 }
 
+var addFavMovie = function(userId, tempId) {
+    // put id in the userlist
+    console.log(userId);
+    console.log(tempId);
+    userModel.findOne({_id: userId}, (err, docs)=> {
+        if(!err) {
+            console.log(docs);
+            var oldList = docs.list;
+            oldList.push(tempId);
+            userModel.updateOne({_id: userId}, {
+                list: oldList
+            }).then(()=> {
+                console.log("Added to Fav");
+            })
+        } else {
+            console.log("Error finding the user in addFav");
+        }
+    })
+}
+
+var addFavSerie = function(userId, tempId) {
+    userModel.findOne({_id: userId}, (err, docs)=> {
+        if(!err) {
+            var oldList = docs.list;
+            oldList.push(tempId);
+            userModel.updateOne({_id: userId}, {
+                list: oldList
+            }).then(()=> {
+                console.log("Added to Fav");
+            })
+        } else {
+            console.log("Error finding the user in addFav");
+        }
+    })
+}
+
+var delFavMovie = function(userId, tempId) {
+    // put id in the userlist
+    console.log(userId);
+    console.log(tempId);
+    userModel.findOne({_id: userId}, (err, docs)=> {
+        if(!err) {
+            console.log(docs);
+            var oldList = docs.list;
+            oldList = oldList.filter(e=> e !== tempId)
+            userModel.updateOne({_id: userId}, {
+                list: oldList
+            }).then(()=> {
+                console.log("Added to Fav");
+            })
+        } else {
+            console.log("Error finding the user in addFav");
+        }
+    })
+}
+
+var delFavSerie = function(userId, tempId) {
+    userModel.findOne({_id: userId}, (err, docs)=> {
+        if(!err) {
+            var oldList = docs.list;
+            oldList = oldList.filter(e=> e !== tempId)
+            userModel.updateOne({_id: userId}, {
+                list: oldList
+            }).then(()=> {
+                console.log("Added to Fav");
+            })
+        } else {
+            console.log("Error finding the user in addFav");
+        }
+    })
+}
+
+var fav_CounterMovies = function(tempId) {
+    movieTempModel.findOne({_id: tempId}, (err, docs)=> {
+        if (!err) {
+            var newCount = docs.fav_Counter + 1;
+            movieTempModel.updateOne({_id: tempId}, {
+                fav_Counter: newCount
+            }).then(()=> {
+                console.log("Fav Counter incremented");
+            })
+        } else {
+            console.log("Error in findind temp in addFav");
+        }
+    })
+}
+
+var fav_CounterSeries = function(tempId) {
+    seriesTempModel.findOne({_id: tempId}, (err, docs)=> {
+        if (!err) {
+            var newCount = docs.fav_Counter + 1;
+            seriesTempModel.updateOne({_id: tempId}, {
+                fav_Counter: newCount
+            }).then(()=> {
+                console.log("Fav Counter incremented");
+            })
+        } else {
+            console.log("Error in findind temp in addFav");
+        }
+    })
+}
+
+var unfav_CounterMovies = function(tempId) {
+    movieTempModel.findOne({_id: tempId}, (err, docs)=> {
+        if (!err) {
+            var newCount = docs.fav_Counter - 1;
+            movieTempModel.updateOne({_id: tempId}, {
+                fav_Counter: newCount
+            }).then(()=> {
+                console.log("Fav Counter incremented");
+            })
+        } else {
+            console.log("Error in findind temp in addFav");
+        }
+    })
+}
+
+var unfav_CounterSeries = function(tempId) {
+    seriesTempModel.findOne({_id: tempId}, (err, docs)=> {
+        if (!err) {
+            var newCount = docs.fav_Counter - 1;
+            seriesTempModel.updateOne({_id: tempId}, {
+                fav_Counter: newCount
+            }).then(()=> {
+                console.log("Fav Counter incremented");
+            })
+        } else {
+            console.log("Error in findind temp in addFav");
+        }
+    })
+}
+
 var addNewDataMovie = function(id) {
     lastAddedModel.findOne({_id: idOfObjectLast}, (err, docs)=> {
         if(!err) {
@@ -462,7 +597,15 @@ module.exports = {
     getSeriesbyIDS: getSeriesbyIDS,
     getMoviebyTempId: getMoviebyTempId,
     getSeriesbyTempId: getSeriesbyTempId,
-    numberOfvideos: numberOfvideos
+    numberOfvideos: numberOfvideos,
+    addFavMovie: addFavMovie,
+    addFavSerie: addFavSerie,
+    delFavMovie: delFavMovie,
+    delFavSerie: delFavSerie,
+    fav_CounterMovies: fav_CounterMovies,
+    fav_CounterSeries: fav_CounterSeries,
+    unfav_CounterMovies: unfav_CounterMovies,
+    unfav_CounterSeries: unfav_CounterSeries,
 };
 
 

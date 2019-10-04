@@ -42,6 +42,30 @@ export class ApiService {
       }))
   }
 
+  public addFavMovie(data) {
+      return this.http.post<any>(`${ConfigVariables.API_URL}user/movies/addFav`, data).pipe(map((res: any)=> {
+          return res;
+      }))
+  }
+
+  public addFavSerie(data) {
+      return this.http.post<any>(`${ConfigVariables.API_URL}user/Series/addFav`, data).pipe(map((res: any)=> {
+          return res;
+      }))
+  }
+
+  public delFavMovie(data) {
+      return this.http.post<any>(`${ConfigVariables.API_URL}user/movies/delFav`, data).pipe(map((res: any)=> {
+          return res;
+      }))
+  }
+
+  public delFavSerie(data) {
+      return this.http.post<any>(`${ConfigVariables.API_URL}user/Series/delFav`, data).pipe(map((res: any)=> {
+          return res;
+      }))
+  }
+
   //*************************
   // ADMIN //
   //*************************

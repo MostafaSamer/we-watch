@@ -4,17 +4,21 @@
         <div class="col">
             <div class="data" *ngFor="let i of dataM">
                 <img src="http://localhost:3000/user/movies/poster?id={{i._id}}" alt="" style="width: 200px; height: 100px">
+                <br>
                 <a [routerLink]="['/view-temp', 'movies', i.tempId]">{{i.name}}</a>
+                <br><br>
             </div>
         </div>
         <div class="col">
             <div class="data" *ngFor="let i of dataS">
                 <img src="http://localhost:3000/user/series/poster?id={{i._id}}" alt="" style="width: 200px; height: 100px">
+                <br>
                 <a [routerLink]="['/view-temp', 'series', i.tempId]">
                     {{i.name}}
                     Season: {{i.season}}
                     Episode: {{i.episode}}
                 </a>
+                <br><br>
             </div>
         </div>
     </div>

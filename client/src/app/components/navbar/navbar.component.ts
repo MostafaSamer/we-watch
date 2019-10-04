@@ -21,5 +21,10 @@ export class NavbarComponent implements OnInit {
       this.router.navigate(['/search', this.nameSearch])
   }
 
+  logout() {
+      localStorage.setItem('currentUser', null)
+      this.router.navigateByUrl('/login');
+  }
+
 
 }

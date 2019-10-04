@@ -18,7 +18,7 @@ import { SearchResultComponent } from './components/search-result/search-result.
 const routes: Routes = [
     {
         path: '',
-        redirectTo: '/login',
+        redirectTo: '/home',
         pathMatch: 'full'
     },
     {
