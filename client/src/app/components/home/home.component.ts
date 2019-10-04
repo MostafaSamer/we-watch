@@ -18,6 +18,7 @@ export class HomeComponent implements OnInit {
     maxOffset;
     preButtonDisable = false;
     nextButtonDisable = false;
+    canLoad = false;
 
   constructor(
       private api: ApiService,
@@ -57,6 +58,7 @@ export class HomeComponent implements OnInit {
               this.nextButtonDisable = false;
           }
       }
+      this.canLoad = true;
   }
 
   nextPage() {
@@ -67,6 +69,43 @@ export class HomeComponent implements OnInit {
   prePage() {
       this.offset--;
       this.ngOnInit();
+  }
+
+  favMovie(tempId) {
+      this.user.listM.push(tempId);
+      this.api.addFavMovie({
+          userId: this.user._id,
+          tempId: tempId
+      }).pipe().subscribe(data=> {
+          console.log(data)
+      })
+  }
+  unFavMovie(tempId){
+      this.user.listM[this.user.listM.indexOf(tempId)] = '';
+      this.api.delFavMovie({
+          userId: this.user._id,
+          tempId: tempId
+      }).pipe().subscribe(data=> {
+          console.log(data)
+      })
+  }
+  favSeries(tempId){
+      this.user.listS.push(tempId);
+      this.api.addFavSerie({
+          userId: this.user._id,
+          tempId: tempId
+      }).pipe().subscribe(data=> {
+          console.log(data)
+      })
+  }
+  unFavSeries(tempId){
+      this.user.listS[this.user.listS.indexOf(tempId)] = '';
+      this.api.delFavSerie({
+          userId: this.user._id,
+          tempId: tempId
+      }).pipe().subscribe(data=> {
+          console.log(data)
+      })
   }
 
 }

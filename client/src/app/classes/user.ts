@@ -1,5 +1,8 @@
 export class User{
+    _id;
+    _v;
     email;
     pass;
-    list;
+    listM: string[];
+    listS: string[];
 }

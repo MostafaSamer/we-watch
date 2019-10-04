@@ -12,7 +12,8 @@ mongoose.connect('mongodb://localhost/we_watch', {
 const userSchema = new Schema({
     email: String,
     pass: String,
-    list: Array,
+    listM: Array,
+    listS: Array,
 })
 const movieSchema = new Schema({
     name: String,
@@ -38,12 +39,12 @@ const movieTemp = new Schema({
     name: String,
     posterLoc: String,
     hasMovie: {type: Boolean, default: false},
-    fav_Counter: Number,
+    fav_Counter: {type: Number, default: 0},
 })
 const seriesTemp = new Schema({
     name: String,
     posterLoc: String,
-    fav_Counter: Number,
+    fav_Counter: {type: Number, default: 0},
 })
 
 // Model
@@ -312,10 +313,10 @@ var addFavMovie = function(userId, tempId) {
     userModel.findOne({_id: userId}, (err, docs)=> {
         if(!err) {
             console.log(docs);
-            var oldList = docs.list;
+            var oldList = docs.listM;
             oldList.push(tempId);
             userModel.updateOne({_id: userId}, {
-                list: oldList
+                listM: oldList
             }).then(()=> {
                 console.log("Added to Fav");
             })
@@ -328,10 +329,10 @@ var addFavMovie = function(userId, tempId) {
 var addFavSerie = function(userId, tempId) {
     userModel.findOne({_id: userId}, (err, docs)=> {
         if(!err) {
-            var oldList = docs.list;
+            var oldList = docs.listS;
             oldList.push(tempId);
             userModel.updateOne({_id: userId}, {
-                list: oldList
+                listS: oldList
             }).then(()=> {
                 console.log("Added to Fav");
             })
@@ -348,10 +349,10 @@ var delFavMovie = function(userId, tempId) {
     userModel.findOne({_id: userId}, (err, docs)=> {
         if(!err) {
             console.log(docs);
-            var oldList = docs.list;
+            var oldList = docs.listM;
             oldList = oldList.filter(e=> e !== tempId)
             userModel.updateOne({_id: userId}, {
-                list: oldList
+                listM: oldList
             }).then(()=> {
                 console.log("Added to Fav");
             })
@@ -364,10 +365,10 @@ var delFavMovie = function(userId, tempId) {
 var delFavSerie = function(userId, tempId) {
     userModel.findOne({_id: userId}, (err, docs)=> {
         if(!err) {
-            var oldList = docs.list;
+            var oldList = docs.listS;
             oldList = oldList.filter(e=> e !== tempId)
             userModel.updateOne({_id: userId}, {
-                list: oldList
+                listS: oldList
             }).then(()=> {
                 console.log("Added to Fav");
             })

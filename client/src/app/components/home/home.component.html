@@ -1,4 +1,4 @@
-<div class="container text-center">
+<div class="container text-center" *ngIf="canLoad">
     <app-navbar></app-navbar>
     <div class="row" style="padding: 20px;">
         <div class="col">
@@ -6,6 +6,10 @@
                 <img src="http://localhost:3000/user/movies/poster?id={{i._id}}" alt="" style="width: 200px; height: 100px">
                 <br>
                 <a [routerLink]="['/view-temp', 'movies', i.tempId]">{{i.name}}</a>
+                <div class="">
+                    <button type="button" name="button" *ngIf="user.listM.indexOf(i.tempId) <= -1" (click)="favMovie(i.tempId)">Fav</button>
+                    <button type="button" name="button" *ngIf="user.listM.indexOf(i.tempId) > -1" (click)="unFavMovie(i.tempId)">UnFav</button>
+                </div>
                 <br><br>
             </div>
         </div>
@@ -18,6 +22,10 @@
                     Season: {{i.season}}
                     Episode: {{i.episode}}
                 </a>
+                <div class="">
+                    <button type="button" name="button" *ngIf="user.listS.indexOf(i.tempId) <= -1" (click)="favSeries(i.tempId)">Fav</button>
+                    <button type="button" name="button" *ngIf="user.listS.indexOf(i.tempId) > -1" (click)="unFavSeries(i.tempId)">UnFav</button>
+                </div>
                 <br><br>
             </div>
         </div>
