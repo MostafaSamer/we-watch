@@ -20,6 +20,10 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { SearchResultComponent } from './components/search-result/search-result.component';
 import { ViewVideoMoviesComponent } from './components/view-video-movies/view-video-movies.component';
 import { ViewVideoSeriesComponent } from './components/view-video-series/view-video-series.component';
+import { ListFavComponent } from './components/list-fav/list-fav.component';
+import { SlideComponent } from './components/slide/slide.component';
+import { HomeMovieComponent } from './components/home-movie/home-movie.component';
+import { HomeSerieComponent } from './components/home-serie/home-serie.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +43,10 @@ import { ViewVideoSeriesComponent } from './components/view-video-series/view-vi
     SearchResultComponent,
     ViewVideoMoviesComponent,
     ViewVideoSeriesComponent,
+    ListFavComponent,
+    SlideComponent,
+    HomeMovieComponent,
+    HomeSerieComponent,
   ],
   imports: [
     BrowserModule,

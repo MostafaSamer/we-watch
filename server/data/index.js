@@ -580,14 +580,19 @@ var deleteVedio = function(id, callback) {
 }
 
 module.exports = {
-    checkUser: checkUser,
-    register: register,
     insertTempMovie: insertTempMovie,
     insertTempSeries: insertTempSeries,
     insertDataMovie: insertDataMovie,
     insertDataSeries: insertDataSeries,
+    addFavMovie: addFavMovie,
+    addFavSerie: addFavSerie,
+    fav_CounterMovies: fav_CounterMovies,
+    fav_CounterSeries: fav_CounterSeries,
+    checkUser: checkUser,
+    register: register,
     searchVedios: searchVedios,
     deleteVedio: deleteVedio,
+    numberOfvideos: numberOfvideos,
     getMoviesTemp: getMoviesTemp,
     getSeriesTemp: getSeriesTemp,
     getTempMovieById: getTempMovieById,
@@ -598,15 +603,10 @@ module.exports = {
     getSeriesbyIDS: getSeriesbyIDS,
     getMoviebyTempId: getMoviebyTempId,
     getSeriesbyTempId: getSeriesbyTempId,
-    numberOfvideos: numberOfvideos,
-    addFavMovie: addFavMovie,
-    addFavSerie: addFavSerie,
-    delFavMovie: delFavMovie,
-    delFavSerie: delFavSerie,
-    fav_CounterMovies: fav_CounterMovies,
-    fav_CounterSeries: fav_CounterSeries,
     unfav_CounterMovies: unfav_CounterMovies,
     unfav_CounterSeries: unfav_CounterSeries,
+    delFavMovie: delFavMovie,
+    delFavSerie: delFavSerie,
 };
 
 
