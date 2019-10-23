@@ -2,11 +2,14 @@ import { Injectable } from '@angular/core';
 import { ConfigVariables } from './config'
 import { HttpClient } from  '@angular/common/http';
 import { map } from 'rxjs/operators';
+import { User } from './classes/user'
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
+
+    user = new User();
 
   constructor(
       private http: HttpClient,
@@ -44,26 +47,41 @@ export class ApiService {
 
   public addFavMovie(data) {
       return this.http.post<any>(`${ConfigVariables.API_URL}user/movies/addFav`, data).pipe(map((res: any)=> {
+          this.updateUserLocal();
           return res;
       }))
   }
 
   public addFavSerie(data) {
       return this.http.post<any>(`${ConfigVariables.API_URL}user/Series/addFav`, data).pipe(map((res: any)=> {
+          this.updateUserLocal();
           return res;
       }))
   }
 
   public delFavMovie(data) {
       return this.http.post<any>(`${ConfigVariables.API_URL}user/movies/delFav`, data).pipe(map((res: any)=> {
+          this.updateUserLocal();
           return res;
       }))
   }
 
   public delFavSerie(data) {
       return this.http.post<any>(`${ConfigVariables.API_URL}user/Series/delFav`, data).pipe(map((res: any)=> {
+          this.updateUserLocal();
           return res;
       }))
+  }
+
+  private updateUserLocal() {
+      this.user = JSON.parse(localStorage.getItem('currentUser'))
+      this.login(this.user.email, this.user.pass).pipe().subscribe(data=> {
+          if(typeof data == 'string') {
+
+          } else {
+              localStorage.setItem('currentUser', JSON.stringify(data))
+          }
+      })
   }
 
   //*************************
@@ -79,7 +97,7 @@ export class ApiService {
   }
 
   //*************************
-  // General //
+  // Pages //
   //*************************
   public getlastAddedMovie(offset) {
       return this.http.post<any>(`${ConfigVariables.API_URL}user/home/moviesOffset`, {
@@ -104,6 +122,12 @@ export class ApiService {
   //*************************
   public getMoviesTemp() {
       return this.http.get(`${ConfigVariables.API_URL}admin/get/moviesTemp`).pipe(map((res)=> {
+          return res
+      }))
+  }
+
+  public getMoviesTempAll() {
+      return this.http.get(`${ConfigVariables.API_URL}admin/get/moviesTempAll`).pipe(map((res)=> {
           return res
       }))
   }
@@ -144,6 +168,22 @@ export class ApiService {
       return this.http.post<any>(`${ConfigVariables.API_URL}admin/add/seriesTemp/data`, {
           new: newData,
           oldName: oldName
+      }).pipe(map((res)=> {
+          return res
+      }))
+  }
+
+  public deleteTempMovie(id) {
+      return this.http.post<any>(`${ConfigVariables.API_URL}admin/delete/movieTemp`, {
+          id: id
+      }).pipe(map((res)=> {
+          return res
+      }))
+  }
+
+  public deleteTempSerie(id) {
+      return this.http.post<any>(`${ConfigVariables.API_URL}admin/delete/serieTemp`, {
+          id: id
       }).pipe(map((res)=> {
           return res
       }))

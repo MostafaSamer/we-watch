@@ -138,6 +138,18 @@ var insertTempSeries = function(tempData, callback) {
 
 // Array -> Found;
 // String -> Error Message;
+var getMoviesTempAll = function(callback) {
+    movieTempModel.find({}, (err, docs)=> {
+        if (!err) {
+            callback(docs)
+        } else {
+            callback("Error in getting all temps");
+        }
+    })
+}
+
+// Array -> Found;
+// String -> Error Message;
 var getMoviesTemp = function(callback) {
     movieTempModel.find({hasMovie: false}, (err, docs)=> {
         if (!err) {
@@ -574,10 +586,55 @@ var searchVedios = function(key, callback) {
     })
 }
 
-// String -> Status
-var deleteVedio = function(id, callback) {
+var deleteMovieTemp = function(id) {
+    movieModel.deleteMany({tempId: id}, (err)=> {
+        console.log("Error Deleting movie before a Temp")
+    })
+    movieTempModel.deleteOne({_id: id}, (err)=> {
+        console.log("Error Deleting Temp")
+    })
+    lastAddedModel.findOne({_id: idOfObjectLast}, (err, docs)=> {
+        var ids = docs.Movieids.splice(docs.Movieids.indexOf(id), 1)
+        lastAddedModel.updateOne({_id: idOfObjectLast}, {
+            Movieids: ids,
+            Seriesids: docs.Seriesids
+        }).then(()=> {
+            lastAddedModel.findOne({_id: idOfObjectLast}, (err, docs)=> {
+                if(!err) {
+                    console.log("Updated Last Added Model in Moves")
+                } else {
+                    console.log("Error findind the lastModel in database");
+                }
+            })
+        })
+    })
 
 }
+
+var deleteSerieTemp = function(id) {
+    seriesModel.deleteMany({tempId: id}, (err)=> {
+        console.log("Error Deleting movie before a Temp")
+    })
+    seriesTempModel.deleteOne({_id: id}, (err)=> {
+        console.log("Error Deleting Temp")
+    })
+    lastAddedModel.findOne({_id: idOfObjectLast}, (err, docs)=> {
+        var ids = docs.Seriesids.splice(docs.Movieids.indexOf(id), 1)
+        lastAddedModel.updateOne({_id: idOfObjectLast}, {
+            Movieids: docs.Movieids,
+            Seriesids: ids
+        }).then(()=> {
+            lastAddedModel.findOne({_id: idOfObjectLast}, (err, docs)=> {
+                if(!err) {
+                    console.log("Updated Last Added Model in Moves")
+                } else {
+                    console.log("Error findind the lastModel in database");
+                }
+            })
+        })
+    })
+}
+
 
 module.exports = {
     insertTempMovie: insertTempMovie,
@@ -591,8 +648,8 @@ module.exports = {
     checkUser: checkUser,
     register: register,
     searchVedios: searchVedios,
-    deleteVedio: deleteVedio,
     numberOfvideos: numberOfvideos,
+    getMoviesTempAll: getMoviesTempAll,
     getMoviesTemp: getMoviesTemp,
     getSeriesTemp: getSeriesTemp,
     getTempMovieById: getTempMovieById,
@@ -607,6 +664,8 @@ module.exports = {
     unfav_CounterSeries: unfav_CounterSeries,
     delFavMovie: delFavMovie,
     delFavSerie: delFavSerie,
+    deleteMovieTemp: deleteMovieTemp,
+    deleteSerieTemp: deleteSerieTemp,
 };
 
 

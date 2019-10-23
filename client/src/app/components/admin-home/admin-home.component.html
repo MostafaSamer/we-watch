@@ -16,4 +16,19 @@
             <a [routerLink]="['/admin-add-series']"><button  type="button" name="button" class="btn btn-primary float-left" style="width: 40%; height: 140%">Add New Episode</button></a>
         </div>
     </div>
+    <div class="row">
+        Search...
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="row" *ngFor="let data of tempM">
+                <a [routerLink]="['/edit-temp-movie', data._id]">{{data.name}}</a>
+            </div>
+        </div>
+        <div class="col">
+            <div class="row" *ngFor="let data of tempS">
+                <a [routerLink]="['/edit-temp-serie', data._id]">{{data.name}}</a>
+            </div>
+        </div>
+    </div>
 </div>

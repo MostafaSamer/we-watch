@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import { ApiService } from '../../api.service'
 @Component({
   selector: 'app-admin-home',
   templateUrl: './admin-home.component.html',
@@ -7,9 +7,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminHomeComponent implements OnInit {
 
-  constructor() { }
+    tempM;
+    tempS;
+
+  constructor(
+      private api: ApiService,
+  ) { }
 
   ngOnInit() {
+      this.api.getMoviesTempAll().pipe().subscribe(data=> {
+          this.tempM = data
+          console.log(this.tempM)
+      })
+      this.api.getSeriesTemp().pipe().subscribe(data=> {
+          this.tempS = data
+          console.log(this.tempS)
+      })
+
+
   }
 
 }

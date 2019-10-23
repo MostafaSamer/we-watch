@@ -17,6 +17,8 @@ import { ViewVideoMoviesComponent } from './components/view-video-movies/view-vi
 import { ViewVideoSeriesComponent } from './components/view-video-series/view-video-series.component';
 import { SearchResultComponent } from './components/search-result/search-result.component';
 import { ListFavComponent } from './components/list-fav/list-fav.component';
+import { AdminEditTempMoviesComponent } from './components/admin-edit-temp-movies/admin-edit-temp-movies.component';
+import { AdminEditTempSeriesComponent } from './components/admin-edit-temp-series/admin-edit-temp-series.component';
 
 const routes: Routes = [
     {
@@ -31,10 +33,6 @@ const routes: Routes = [
     {
         path: 'register',
         component: RegisterComponent
-    },
-    {
-        path: 'home',
-        component: HomeComponent
     },
     {
         path: 'movies',
@@ -55,6 +53,14 @@ const routes: Routes = [
     {
         path: 'admin-home',
         component: AdminHomeComponent
+    },
+    {
+        path: 'edit-temp-movie/:id',
+        component: AdminEditTempMoviesComponent
+    },
+    {
+        path: 'edit-temp-serie/:id',
+        component: AdminEditTempSeriesComponent
     },
     {
         path: 'admin-add-movies-temp',

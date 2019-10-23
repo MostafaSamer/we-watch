@@ -24,6 +24,8 @@ import { ListFavComponent } from './components/list-fav/list-fav.component';
 import { SlideComponent } from './components/slide/slide.component';
 import { HomeMovieComponent } from './components/home-movie/home-movie.component';
 import { HomeSerieComponent } from './components/home-serie/home-serie.component';
+import { AdminEditTempMoviesComponent } from './components/admin-edit-temp-movies/admin-edit-temp-movies.component';
+import { AdminEditTempSeriesComponent } from './components/admin-edit-temp-series/admin-edit-temp-series.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +49,8 @@ import { HomeSerieComponent } from './components/home-serie/home-serie.component
     SlideComponent,
     HomeMovieComponent,
     HomeSerieComponent,
+    AdminEditTempMoviesComponent,
+    AdminEditTempSeriesComponent,
   ],
   imports: [
     BrowserModule,

@@ -293,10 +293,26 @@ router.get('/admin/get/moviesTemp', (req, res)=> {
     })
 })
 
+router.get('/admin/get/moviesTempAll', (req, res)=> {
+    data.getMoviesTempAll((result)=> {
+        res.json(result)
+    })
+})
+
 router.get('/admin/get/seriesTemp', (req, res)=> {
     data.getSeriesTemp((result)=> {
         res.json(result)
     })
+})
+
+router.post('/admin/delete/movieTemp', (req,res)=> {
+    data.deleteMovieTemp(req.body.id);
+    res.json('Mostafa')
+})
+
+router.post('/admin/delete/serieTemp', (req,res)=> {
+    data.deleteSerieTemp(req.body.id);
+    res.json('Mostafa')
 })
 
 //*************************
