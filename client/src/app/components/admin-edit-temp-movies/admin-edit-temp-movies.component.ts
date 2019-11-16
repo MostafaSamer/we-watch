@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from '../../api.service'
+import { Video } from '../../classes/video'
 
 @Component({
   selector: 'app-admin-edit-temp-movies',
@@ -10,6 +11,7 @@ import { ApiService } from '../../api.service'
 export class AdminEditTempMoviesComponent implements OnInit {
 
     id;
+    video = new Video();
 
   constructor(
       private router: ActivatedRoute,
@@ -18,7 +20,10 @@ export class AdminEditTempMoviesComponent implements OnInit {
 
   ngOnInit() {
       this.id = this.router.snapshot.paramMap.get('id')
-
+      this.api.getMoviesTempById(this.id).pipe().subscribe(data=> {
+          this.video = data;
+          console.log(this.video)
+      })
   }
 
   deleteTemp() {

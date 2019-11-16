@@ -8,6 +8,8 @@ mongoose.connect('mongodb://localhost/we_watch', {
     useUnifiedTopology: true
 })
 
+console.log("Connected");
+
 // Schema
 const userSchema = new Schema({
     email: String,
@@ -55,8 +57,39 @@ const lastAddedModel = mongoose.model('last', lastAdded);
 const movieTempModel = mongoose.model('movieTemp', movieTemp);
 const seriesTempModel = mongoose.model('serieTemp', seriesTemp);
 
-const idOfObjectLast = "5d860cafa7694e8c7c5fa459";
+const idOfObjectLast = "5db6a885e5b953140523f32e";
 
+///////////////////
+// FOR THE FIRST TIME ONLY
+// CHANGE THE idOfObjectLast
+/*
+var test = new lastAddedModel({
+    "Seriesids" : [],
+    "Movieids" : []
+})
+test.save();
+*/
+//////////////////
+
+//*************************
+// DASHBOARD //
+//*************************
+var numberOfvideos = function(callback) {
+    lastAddedModel.find({}, (err, docs)=> {
+        if (!err) {
+            callback({
+                m: docs[0].Movieids.length,
+                s: docs[0].Seriesids.length,
+            })
+        } else {
+            console.log("Error getting number if videos");
+        }
+    })
+}
+
+//*************************
+// USER //
+//*************************
 // Object -> found;
 // String -> Error Message;
 var checkUser = function(email, pass, callback) {
@@ -108,24 +141,36 @@ var register = function(user, callback) {
     })
 }
 
-// Object -> Saved;
+// Array of Object -> Found;
+// Empty Array -> Not Found;
 // String -> Error Message;
-var insertTempMovie = function(tempData, callback) {
-    var newTemp = new movieTempModel(tempData);
-    newTemp.save((err)=> {
-        if(!err) {
-            console.log("Data Saved");
-            callback(newTemp);
+var searchVedios = function(key, callback) {
+    var list = [];
+    movieTempModel.find({"name": {'$regex': key}, "hasMovie": true}, (err, docs)=> {
+        if (!err) {
+            list.push(docs);
+            seriesTempModel.find({"name": {'$regex': key}}, (err, docs)=> {
+                if (!err) {
+                    list.push(docs)
+                    // TODO: PAGGING THE SEARCH, SEND DATA LIKE 1 OF 5 PAGES
+                    callback(list)
+                } else {
+                    console.log("Error in Searching in Series");
+                }
+            })
         } else {
-            callback("Error in saving new video")
+            console.log("Error in Searching in Movies");
         }
     })
 }
 
+//*************************
+// MOVIES TEMP //
+//*************************
 // Object -> Saved;
 // String -> Error Message;
-var insertTempSeries = function(tempData, callback) {
-    var newTemp = new seriesTempModel(tempData);
+var insertTempMovie = function(tempData, callback) {
+    var newTemp = new movieTempModel(tempData);
     newTemp.save((err)=> {
         if(!err) {
             console.log("Data Saved");
@@ -160,18 +205,6 @@ var getMoviesTemp = function(callback) {
     })
 }
 
-//Array -> Found;
-// String -> Error Message;
-var getSeriesTemp = function(callback) {
-    seriesTempModel.find({}, (err, docs)=> {
-        if (!err) {
-            callback(docs)
-        } else {
-            callback("Error in getting all temps");
-        }
-    })
-}
-
 // Object -> found;
 // String -> Error Message;
 var getTempMovieById = function(id, callback) {
@@ -180,140 +213,6 @@ var getTempMovieById = function(id, callback) {
             callback(docs)
         } else {
             callback("Error in getting temp by id");
-        }
-    })
-}
-
-// Object -> found;
-// String -> Error Message;
-var getTempSeriesById = function(id, callback) {
-    console.log(id);
-    seriesTempModel.findOne({_id: id}, (err, docs)=> {
-        if(!err) {
-            callback(docs)
-        } else {
-            callback("Error in getting temp by id");
-        }
-    })
-}
-
-// Object -> Saved!
-// String -> Error!
-var insertDataMovie = function(videoData, callback) {
-    var newVideo = new movieModel(videoData);
-    newVideo.save((err)=> {
-        if(!err) {
-            console.log("Data Saved!");
-            movieTempModel.updateOne({_id: newVideo.tempId}, {hasMovie: true}).then(()=> {
-                movieTempModel.findOne({_id: newVideo.tempId}, (err, docs)=> {
-                    if(!err) {
-                        console.log("Templete Updated!")
-                    } else {
-                        callback("Error findind the lastModel in database");
-                    }
-                })
-            })
-            addNewDataMovie(newVideo._id);
-            callback(newVideo);
-        } else {
-            callback("Error in saving new video")
-        }
-    })
-}
-
-// Object -> Saved!
-// String -> Error!
-var insertDataSeries = function(videoData, callback) {
-    var newVideo = new seriesModel(videoData);
-    newVideo.save((err)=> {
-        if(!err) {
-            console.log("Data Saved!");
-            addNewDataSeries(newVideo._id);
-            callback(newVideo);
-        } else {
-            callback("Error in saving new video")
-        }
-    })
-}
-
-// Resolve Object -> found;
-// Resolve null -> not Found;
-// Reject String -> Error Message;
-var getMoviebyID = function(id, callback) {
-    return new Promise(function(resolve, reject) {
-        movieModel.findOne({_id: id}, (err, docs)=> {
-            if (!err) {
-                return resolve(docs)
-            } else {
-                return reject("Error in getting Movie by Id")
-            }
-        })
-    })
-}
-
-// Resolve Object -> found;
-// Resolve null -> not Found;
-// Reject String -> Error Message;
-var getSeriesbyID = function(id, callback) {
-    return new Promise(function(resolve, reject) {
-        seriesModel.findOne({_id: id}, (err, docs)=> {
-            if (!err) {
-                return resolve(docs)
-            } else {
-                return reject("Error in getting Series by Id")
-            }
-        })
-    })
-}
-
-// Object -> found;
-// null -> not Found;
-// String -> Error Message;
-var getMoviebyIDS = function(id, callback) {
-    movieModel.findOne({_id: id}, (err, docs)=> {
-        if (!err) {
-            callback(docs)
-        } else {
-            callback("Error in getting Movie by Id")
-        }
-    })
-}
-
-// Object -> found;
-// null -> not Found;
-// String -> Error Message;
-var getSeriesbyIDS = function(id, callback) {
-    seriesModel.findOne({_id: id}, (err, docs)=> {
-        if (!err) {
-            callback(docs)
-        } else {
-            callback("Error in getting Series by Id")
-        }
-    })
-}
-
-// Object -> found;
-// null -> not Found;
-// String -> Error Message;
-var getMoviebyTempId = function(tempId, callback) {
-    movieModel.findOne({tempId: tempId}, (err, docs)=> {
-        if (!err) {
-            callback(docs);
-        } else {
-            callback("Error in finding Movie by Temp ID")
-        }
-    })
-}
-
-// Array -> found;
-// null -> not Found;
-// String -> Error Message;
-var getSeriesbyTempId = function(tempId, callback) {
-    seriesModel.find({tempId: tempId}, (err, docs)=> {
-        if (!err) {
-            callback(docs);
-        } else {
-            callback("Error in finding Movie by Temp ID")
         }
     })
 }
@@ -329,22 +228,6 @@ var addFavMovie = function(userId, tempId) {
             oldList.push(tempId);
             userModel.updateOne({_id: userId}, {
                 listM: oldList
-            }).then(()=> {
-                console.log("Added to Fav");
-            })
-        } else {
-            console.log("Error finding the user in addFav");
-        }
-    })
-}
-
-var addFavSerie = function(userId, tempId) {
-    userModel.findOne({_id: userId}, (err, docs)=> {
-        if(!err) {
-            var oldList = docs.listS;
-            oldList.push(tempId);
-            userModel.updateOne({_id: userId}, {
-                listS: oldList
             }).then(()=> {
                 console.log("Added to Fav");
             })
@@ -374,42 +257,11 @@ var delFavMovie = function(userId, tempId) {
     })
 }
 
-var delFavSerie = function(userId, tempId) {
-    userModel.findOne({_id: userId}, (err, docs)=> {
-        if(!err) {
-            var oldList = docs.listS;
-            oldList = oldList.filter(e=> e !== tempId)
-            userModel.updateOne({_id: userId}, {
-                listS: oldList
-            }).then(()=> {
-                console.log("Added to Fav");
-            })
-        } else {
-            console.log("Error finding the user in addFav");
-        }
-    })
-}
-
 var fav_CounterMovies = function(tempId) {
     movieTempModel.findOne({_id: tempId}, (err, docs)=> {
         if (!err) {
             var newCount = docs.fav_Counter + 1;
             movieTempModel.updateOne({_id: tempId}, {
-                fav_Counter: newCount
-            }).then(()=> {
-                console.log("Fav Counter incremented");
-            })
-        } else {
-            console.log("Error in findind temp in addFav");
-        }
-    })
-}
-
-var fav_CounterSeries = function(tempId) {
-    seriesTempModel.findOne({_id: tempId}, (err, docs)=> {
-        if (!err) {
-            var newCount = docs.fav_Counter + 1;
-            seriesTempModel.updateOne({_id: tempId}, {
                 fav_Counter: newCount
             }).then(()=> {
                 console.log("Fav Counter incremented");
@@ -435,6 +287,115 @@ var unfav_CounterMovies = function(tempId) {
     })
 }
 
+//*************************
+// SERIES TEMP //
+//*************************
+// Object -> Saved;
+// String -> Error Message;
+var insertTempSeries = function(tempData, callback) {
+    var newTemp = new seriesTempModel(tempData);
+    newTemp.save((err)=> {
+        if(!err) {
+            console.log("Data Saved");
+            callback(newTemp);
+        } else {
+            callback("Error in saving new video")
+        }
+    })
+}
+
+// Array -> Found;
+// String -> Error Message;
+var getSeriesTempAll = function(callback) {
+    seriesTempModel.find({}, (err, docs)=> {
+        if (!err) {
+            callback(docs)
+        } else {
+            callback("Error in getting all temps");
+        }
+    })
+}
+
+//Array -> Found;
+// String -> Error Message;
+var getSeriesTemp = function(callback) {
+    seriesTempModel.find({}, (err, docs)=> {
+        if (!err) {
+            callback(docs)
+        } else {
+            callback("Error in getting all temps");
+        }
+    })
+}
+
+
+
+// Object -> found;
+// String -> Error Message;
+var getTempSeriesById = function(id, callback) {
+    console.log(id);
+    seriesTempModel.findOne({_id: id}, (err, docs)=> {
+        if(!err) {
+            callback(docs)
+        } else {
+            callback("Error in getting temp by id");
+        }
+    })
+}
+
+var addFavSerie = function(userId, tempId) {
+    userModel.findOne({_id: userId}, (err, docs)=> {
+        if(!err) {
+            var oldList = docs.listS;
+            oldList.push(tempId);
+            userModel.updateOne({_id: userId}, {
+                listS: oldList
+            }).then(()=> {
+                console.log("Added to Fav");
+            })
+        } else {
+            console.log("Error finding the user in addFav");
+        }
+    })
+}
+
+
+
+var delFavSerie = function(userId, tempId) {
+    userModel.findOne({_id: userId}, (err, docs)=> {
+        if(!err) {
+            var oldList = docs.listS;
+            oldList = oldList.filter(e=> e !== tempId)
+            userModel.updateOne({_id: userId}, {
+                listS: oldList
+            }).then(()=> {
+                console.log("Added to Fav");
+            })
+        } else {
+            console.log("Error finding the user in addFav");
+        }
+    })
+}
+
+
+
+var fav_CounterSeries = function(tempId) {
+    seriesTempModel.findOne({_id: tempId}, (err, docs)=> {
+        if (!err) {
+            var newCount = docs.fav_Counter + 1;
+            seriesTempModel.updateOne({_id: tempId}, {
+                fav_Counter: newCount
+            }).then(()=> {
+                console.log("Fav Counter incremented");
+            })
+        } else {
+            console.log("Error in findind temp in addFav");
+        }
+    })
+}
+
+
+
 var unfav_CounterSeries = function(tempId) {
     seriesTempModel.findOne({_id: tempId}, (err, docs)=> {
         if (!err) {
@@ -447,6 +408,189 @@ var unfav_CounterSeries = function(tempId) {
         } else {
             console.log("Error in findind temp in addFav");
         }
+    })
+}
+
+//*************************
+// MOVIES VIDEOS //
+//*************************
+// Object -> Saved!
+// String -> Error!
+var insertDataMovie = function(videoData, callback) {
+    var newVideo = new movieModel(videoData);
+    newVideo.save((err)=> {
+        if(!err) {
+            console.log("Data Saved!");
+            movieTempModel.updateOne({_id: newVideo.tempId}, {hasMovie: true}).then(()=> {
+                movieTempModel.findOne({_id: newVideo.tempId}, (err, docs)=> {
+                    if(!err) {
+                        console.log("Templete Updated!")
+                    } else {
+                        callback("Error findind the lastModel in database");
+                    }
+                })
+            })
+            addNewDataMovie(newVideo._id);
+            callback(newVideo);
+        } else {
+            callback("Error in saving new video")
+        }
+    })
+}
+
+// Object -> found;
+// null -> not Found;
+// String -> Error Message;
+var getMoviebyIDS = function(id, callback) {
+    movieModel.findOne({_id: id}, (err, docs)=> {
+        if (!err) {
+            callback(docs)
+        } else {
+            callback("Error in getting Movie by Id")
+        }
+    })
+}
+
+
+
+// Object -> found;
+// null -> not Found;
+// String -> Error Message;
+var getMoviebyTempId = function(tempId, callback) {
+    movieModel.findOne({tempId: tempId}, (err, docs)=> {
+        if (!err) {
+            callback(docs);
+        } else {
+            callback("Error in finding Movie by Temp ID")
+        }
+    })
+}
+
+var deleteMovieTemp = function(id) {
+    movieModel.deleteMany({tempId: id}, (err)=> {
+        console.log("Error Deleting movie before a Temp")
+    })
+    movieTempModel.deleteOne({_id: id}, (err)=> {
+        console.log("Error Deleting Temp")
+    })
+    lastAddedModel.findOne({_id: idOfObjectLast}, (err, docs)=> {
+        var ids = docs.Movieids.splice(docs.Movieids.indexOf(id), 1)
+        lastAddedModel.updateOne({_id: idOfObjectLast}, {
+            Movieids: ids,
+            Seriesids: docs.Seriesids
+        }).then(()=> {
+            lastAddedModel.findOne({_id: idOfObjectLast}, (err, docs)=> {
+                if(!err) {
+                    console.log("Updated Last Added Model in Moves")
+                } else {
+                    console.log("Error findind the lastModel in database");
+                }
+            })
+        })
+    })
+
+}
+
+//*************************
+// SERIES VIDEOS //
+//*************************
+// Object -> Saved!
+// String -> Error!
+var insertDataSeries = function(videoData, callback) {
+    var newVideo = new seriesModel(videoData);
+    newVideo.save((err)=> {
+        if(!err) {
+            console.log("Data Saved!");
+            addNewDataSeries(newVideo._id);
+            callback(newVideo);
+        } else {
+            callback("Error in saving new video")
+        }
+    })
+}
+
+
+
+// Object -> found;
+// null -> not Found;
+// String -> Error Message;
+var getSeriesbyIDS = function(id, callback) {
+    seriesModel.findOne({_id: id}, (err, docs)=> {
+        if (!err) {
+            callback(docs)
+        } else {
+            callback("Error in getting Series by Id")
+        }
+    })
+}
+
+// Array -> found;
+// null -> not Found;
+// String -> Error Message;
+var getSeriesbyTempId = function(tempId, callback) {
+    seriesModel.find({tempId: tempId}, (err, docs)=> {
+        if (!err) {
+            callback(docs);
+        } else {
+            callback("Error in finding Movie by Temp ID")
+        }
+    })
+}
+
+var deleteSerieTemp = function(id) {
+    seriesModel.deleteMany({tempId: id}, (err)=> {
+        console.log("Error Deleting movie before a Temp")
+    })
+    seriesTempModel.deleteOne({_id: id}, (err)=> {
+        console.log("Error Deleting Temp")
+    })
+    lastAddedModel.findOne({_id: idOfObjectLast}, (err, docs)=> {
+        var ids = docs.Seriesids.splice(docs.Movieids.indexOf(id), 1)
+        lastAddedModel.updateOne({_id: idOfObjectLast}, {
+            Movieids: docs.Movieids,
+            Seriesids: ids
+        }).then(()=> {
+            lastAddedModel.findOne({_id: idOfObjectLast}, (err, docs)=> {
+                if(!err) {
+                    console.log("Updated Last Added Model in Moves")
+                } else {
+                    console.log("Error findind the lastModel in database");
+                }
+            })
+        })
+    })
+}
+
+//*************************
+// PRIVATE //
+//*************************
+// Resolve Object -> found;
+// Resolve null -> not Found;
+// Reject String -> Error Message;
+var getMoviebyID = function(id, callback) {
+    return new Promise(function(resolve, reject) {
+        movieModel.findOne({_id: id}, (err, docs)=> {
+            if (!err) {
+                return resolve(docs)
+            } else {
+                return reject("Error in getting Movie by Id")
+            }
+        })
+    })
+}
+
+// Resolve Object -> found;
+// Resolve null -> not Found;
+// Reject String -> Error Message;
+var getSeriesbyID = function(id, callback) {
+    return new Promise(function(resolve, reject) {
+        seriesModel.findOne({_id: id}, (err, docs)=> {
+            if (!err) {
+                return resolve(docs)
+            } else {
+                return reject("Error in getting Series by Id")
+            }
+        })
     })
 }
 
@@ -550,121 +694,52 @@ var getDataOffsetSeries = function(offset, callback) {
     })
 }
 
-var numberOfvideos = function(callback) {
-    lastAddedModel.find({}, (err, docs)=> {
-        if (!err) {
-            callback({
-                m: docs[0].Movieids.length,
-                s: docs[0].Seriesids.length,
-            })
-        } else {
-            console.log("Error getting number if videos");
-        }
-    })
-}
 
-// Array of Object -> Found;
-// Empty Array -> Not Found;
-// String -> Error Message;
-var searchVedios = function(key, callback) {
-    var list = [];
-    movieTempModel.find({"name": {'$regex': key}, "hasMovie": true}, (err, docs)=> {
-        if (!err) {
-            list.push(docs);
-            seriesTempModel.find({"name": {'$regex': key}}, (err, docs)=> {
-                if (!err) {
-                    list.push(docs)
-                    // TODO: PAGGING THE SEARCH, SEND DATA LIKE 1 OF 5 PAGES
-                    callback(list)
-                } else {
-                    console.log("Error in Searching in Series");
-                }
-            })
-        } else {
-            console.log("Error in Searching in Movies");
-        }
-    })
-}
 
-var deleteMovieTemp = function(id) {
-    movieModel.deleteMany({tempId: id}, (err)=> {
-        console.log("Error Deleting movie before a Temp")
-    })
-    movieTempModel.deleteOne({_id: id}, (err)=> {
-        console.log("Error Deleting Temp")
-    })
-    lastAddedModel.findOne({_id: idOfObjectLast}, (err, docs)=> {
-        var ids = docs.Movieids.splice(docs.Movieids.indexOf(id), 1)
-        lastAddedModel.updateOne({_id: idOfObjectLast}, {
-            Movieids: ids,
-            Seriesids: docs.Seriesids
-        }).then(()=> {
-            lastAddedModel.findOne({_id: idOfObjectLast}, (err, docs)=> {
-                if(!err) {
-                    console.log("Updated Last Added Model in Moves")
-                } else {
-                    console.log("Error findind the lastModel in database");
-                }
-            })
-        })
-    })
 
-}
-
-var deleteSerieTemp = function(id) {
-    seriesModel.deleteMany({tempId: id}, (err)=> {
-        console.log("Error Deleting movie before a Temp")
-    })
-    seriesTempModel.deleteOne({_id: id}, (err)=> {
-        console.log("Error Deleting Temp")
-    })
-    lastAddedModel.findOne({_id: idOfObjectLast}, (err, docs)=> {
-        var ids = docs.Seriesids.splice(docs.Movieids.indexOf(id), 1)
-        lastAddedModel.updateOne({_id: idOfObjectLast}, {
-            Movieids: docs.Movieids,
-            Seriesids: ids
-        }).then(()=> {
-            lastAddedModel.findOne({_id: idOfObjectLast}, (err, docs)=> {
-                if(!err) {
-                    console.log("Updated Last Added Model in Moves")
-                } else {
-                    console.log("Error findind the lastModel in database");
-                }
-            })
-        })
-    })
-}
 
 
 module.exports = {
-    insertTempMovie: insertTempMovie,
-    insertTempSeries: insertTempSeries,
-    insertDataMovie: insertDataMovie,
-    insertDataSeries: insertDataSeries,
-    addFavMovie: addFavMovie,
-    addFavSerie: addFavSerie,
-    fav_CounterMovies: fav_CounterMovies,
-    fav_CounterSeries: fav_CounterSeries,
+    // Dashboard
+    numberOfvideos: numberOfvideos,
+
+    // User
     checkUser: checkUser,
     register: register,
     searchVedios: searchVedios,
-    numberOfvideos: numberOfvideos,
+
+    // Movies Temps
+    insertTempMovie: insertTempMovie,
     getMoviesTempAll: getMoviesTempAll,
     getMoviesTemp: getMoviesTemp,
-    getSeriesTemp: getSeriesTemp,
     getTempMovieById: getTempMovieById,
-    getTempSeriesById: getTempSeriesById,
-    getDataOffsetMovie: getDataOffsetMovie,
-    getDataOffsetSeries: getDataOffsetSeries,
-    getMoviebyIDS: getMoviebyIDS,
-    getSeriesbyIDS: getSeriesbyIDS,
-    getMoviebyTempId: getMoviebyTempId,
-    getSeriesbyTempId: getSeriesbyTempId,
-    unfav_CounterMovies: unfav_CounterMovies,
-    unfav_CounterSeries: unfav_CounterSeries,
+    addFavMovie: addFavMovie,
     delFavMovie: delFavMovie,
+    fav_CounterMovies: fav_CounterMovies,
+    unfav_CounterMovies: unfav_CounterMovies,
+
+    //  Series Temps
+    insertTempSeries: insertTempSeries,
+    getSeriesTempAll: getSeriesTempAll,
+    getSeriesTemp: getSeriesTemp,
+    getTempSeriesById: getTempSeriesById,
+    addFavSerie: addFavSerie,
     delFavSerie: delFavSerie,
+    fav_CounterSeries: fav_CounterSeries,
+    unfav_CounterSeries: unfav_CounterSeries,
+
+    // Movie Videos
+    insertDataMovie: insertDataMovie,
+    getDataOffsetMovie: getDataOffsetMovie,
+    getMoviebyIDS: getMoviebyIDS,
+    getMoviebyTempId: getMoviebyTempId,
     deleteMovieTemp: deleteMovieTemp,
+
+    // Series Videos
+    insertDataSeries: insertDataSeries,
+    getDataOffsetSeries: getDataOffsetSeries,
+    getSeriesbyIDS: getSeriesbyIDS,
+    getSeriesbyTempId: getSeriesbyTempId,
     deleteSerieTemp: deleteSerieTemp,
 };
 

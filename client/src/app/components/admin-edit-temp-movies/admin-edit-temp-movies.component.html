@@ -1,2 +1,11 @@
-<p>admin-edit-temp-movies works!</p>
+<input type="text" name="" value="{{video.name}}">
+<br><br>
+<div class="">
+    {{video.fav_Counter}} of Pepole loved this
+</div>
+<br><br>
+<img src="http://localhost:3000/user/movies/poster?id={{video_id}}" alt="" style="width: 425px; height: 600px">
+<br><br>
+<button type="button" name="button" (click)="saveTemp()">Save</button>
+<br><br>
 <button type="button" name="button" (click)="deleteTemp()">Delete Temp With Videos</button>

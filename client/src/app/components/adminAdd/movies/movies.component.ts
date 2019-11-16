@@ -36,6 +36,7 @@ export class MoviesComponent implements OnInit {
       this.loading = true
       this.api.adminUploadMovie(this.formData, this.newVideo).pipe().subscribe(data=> {
           console.log(data)
+          this.temps = this.temps.splice(this.temps.indexOf(this.newVideo), 1)
           this.loading = false
       })
   }

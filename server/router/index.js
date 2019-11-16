@@ -287,14 +287,26 @@ router.post('/admin/add/seriesTemp/data', (req, res)=> {
     })
 })
 
-router.get('/admin/get/moviesTemp', (req, res)=> {
-    data.getMoviesTemp((result)=> {
-        res.json(result)
+router.post('/admin/get/moviesTempById', (req, res)=> {
+    data.getTempMovieById(req.body.id, (result)=> {
+        res.json(result);
+    })
+})
+
+router.post('/admin/get/seriesTempById', (req, res)=> {
+    data.getTempSeriesById(req.body.id, (result)=> {
+        res.json(result);
     })
 })
 
 router.get('/admin/get/moviesTempAll', (req, res)=> {
     data.getMoviesTempAll((result)=> {
+        res.json(result)
+    })
+})
+
+router.get('/admin/get/moviesTemp', (req, res)=> {
+    data.getMoviesTemp((result)=> {
         res.json(result)
     })
 })

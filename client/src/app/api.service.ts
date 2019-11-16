@@ -138,6 +138,22 @@ export class ApiService {
       }))
   }
 
+  public getMoviesTempById(id) {
+      return this.http.post(`${ConfigVariables.API_URL}admin/get/moviesTempById`, {
+          id: id
+      }).pipe(map((res)=> {
+          return res;
+      }))
+  }
+
+  public getSeriesTempById(id) {
+      return this.http.post(`${ConfigVariables.API_URL}admin/get/seriesTempById`, {
+          id: id
+      }).pipe(map((res)=> {
+          return res;
+      }))
+  }
+
   public addNewTempsMovies(data, posterData) {
       return this.http.post<any>(`${ConfigVariables.API_URL}admin/add/moviesTemp/poster`, posterData).pipe(map((res)=> {
           this.addNewTempsMoviesData(res, data).pipe().subscribe(data=> {
