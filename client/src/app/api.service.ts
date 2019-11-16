@@ -73,6 +73,17 @@ export class ApiService {
       }))
   }
 
+  public sendMessage(title, mess) {
+      return this.http.post<any>(`${ConfigVariables.API_URL}user/message`, {
+          user_email: JSON.parse(localStorage.getItem('currentUser')).email,
+          title: title,
+          mess: mess
+      }).pipe(map((res: any)=> {
+          this.updateUserLocal();
+          return res;
+      }))
+  }
+
   private updateUserLocal() {
       this.user = JSON.parse(localStorage.getItem('currentUser'))
       this.login(this.user.email, this.user.pass).pipe().subscribe(data=> {

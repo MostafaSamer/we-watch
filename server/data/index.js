@@ -48,6 +48,13 @@ const seriesTemp = new Schema({
     posterLoc: String,
     fav_Counter: {type: Number, default: 0},
 })
+const message = new Schema({
+    from: String,
+    data: {type: Date, default: Date.now()},
+    title: String,
+    mess: String,
+    readed: {type: Boolean, default: false}
+})
 
 // Model
 const userModel = mongoose.model('user', userSchema);
@@ -56,6 +63,7 @@ const seriesModel = mongoose.model('serie', seriesSchema);
 const lastAddedModel = mongoose.model('last', lastAdded);
 const movieTempModel = mongoose.model('movieTemp', movieTemp);
 const seriesTempModel = mongoose.model('serieTemp', seriesTemp);
+const messageModel = mongoose.model('message', message)
 
 const idOfObjectLast = "5db6a885e5b953140523f32e";
 
@@ -160,6 +168,18 @@ var searchVedios = function(key, callback) {
             })
         } else {
             console.log("Error in Searching in Movies");
+        }
+    })
+}
+
+var addMessage = function(messData, callback) {
+    var newMess = new messageModel(messData);
+    newMess.save((err)=> {
+        if (!err) {
+            console.log("Message Submitted");
+            callback(newMess)
+        } else {
+            callback("Error in submitting the message")
         }
     })
 }
@@ -707,6 +727,7 @@ module.exports = {
     checkUser: checkUser,
     register: register,
     searchVedios: searchVedios,
+    addMessage: addMessage,
 
     // Movies Temps
     insertTempMovie: insertTempMovie,

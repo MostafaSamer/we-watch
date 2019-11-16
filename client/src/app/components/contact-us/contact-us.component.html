@@ -1,0 +1,31 @@
+<div class="container text-center">
+    <app-navbar></app-navbar>
+    <div class="row">
+        <div class="col-2">
+            <app-slide></app-slide>
+        </div>
+        <div class="col">
+            <form (ngSubmit)='onSubmit()'>
+                <div class="from-group">
+                    <label for="email">Title: </label>
+                    <input class="form-control" type="text" name="title" value="" [(ngModel)]="title">
+                    <br>
+                    <label for="pass">Message: </label>
+                    <input class="form-control" type="text" name="mess" value="" [(ngModel)]="mess">
+                    <br>
+                    <div class="text-center">
+                        <div class="alert alert-danger" *ngIf="err">
+                            {{error_mess}}
+                        </div>
+                        <br>
+                        <div class="alert alert-success" *ngIf="succ">
+                            {{succ_mess}}
+                        </div>
+                        <br>
+                        <button type="submit" name="button" class="btn btn-primary btn-lg">Send</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

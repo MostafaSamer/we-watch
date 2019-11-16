@@ -20,7 +20,7 @@ export class AdminEditTempMoviesComponent implements OnInit {
 
   ngOnInit() {
       this.id = this.router.snapshot.paramMap.get('id')
-      this.api.getMoviesTempById(this.id).pipe().subscribe(data=> {
+      this.api.getMoviesTempById(this.id).pipe().subscribe((data: Video)=> {
           this.video = data;
           console.log(this.video)
       })

@@ -28,7 +28,7 @@ export class SlideComponent implements OnInit {
         },
         {
             title: "Contact Us",
-            link: "/"
+            link: "/contact"
         }
     ]
 

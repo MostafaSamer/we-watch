@@ -26,6 +26,7 @@ import { HomeMovieComponent } from './components/home-movie/home-movie.component
 import { HomeSerieComponent } from './components/home-serie/home-serie.component';
 import { AdminEditTempMoviesComponent } from './components/admin-edit-temp-movies/admin-edit-temp-movies.component';
 import { AdminEditTempSeriesComponent } from './components/admin-edit-temp-series/admin-edit-temp-series.component';
+import { ContactUsComponent } from './components/contact-us/contact-us.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { AdminEditTempSeriesComponent } from './components/admin-edit-temp-serie
     HomeSerieComponent,
     AdminEditTempMoviesComponent,
     AdminEditTempSeriesComponent,
+    ContactUsComponent,
   ],
   imports: [
     BrowserModule,

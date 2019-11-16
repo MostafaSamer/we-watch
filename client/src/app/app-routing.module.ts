@@ -19,6 +19,7 @@ import { SearchResultComponent } from './components/search-result/search-result.
 import { ListFavComponent } from './components/list-fav/list-fav.component';
 import { AdminEditTempMoviesComponent } from './components/admin-edit-temp-movies/admin-edit-temp-movies.component';
 import { AdminEditTempSeriesComponent } from './components/admin-edit-temp-series/admin-edit-temp-series.component';
+import { ContactUsComponent } from './components/contact-us/contact-us.component';
 
 const routes: Routes = [
     {
@@ -98,6 +99,10 @@ const routes: Routes = [
     {
         path: 'listFav',
         component: ListFavComponent
+    },
+    {
+        path: 'contact',
+        component: ContactUsComponent
     },
 ];
 

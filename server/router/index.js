@@ -207,6 +207,16 @@ router.post('/user/Series/delFav', (req, res)=>{
     res.json("MS")
 })
 
+router.post('/user/message',(req, res)=> {
+    data.addMessage({
+        from: req.body.user_email,
+        title: req.body.title,
+        mess: req.body.mess
+    }, (result)=> {
+        res.json(result)
+    })
+})
+
 //*************************
 // ADMIN //
 //*************************
