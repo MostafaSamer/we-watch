@@ -244,6 +244,24 @@ router.post('/admin/delete', (req, res)=> {
 
 })
 
+router.post('/admin/mark_read/message', (req, res)=> {
+    var id = req.body.id
+    data.markRead(id)
+    res.json(true)
+})
+
+router.get('/admin/get/message', (req, res)=> {
+    data.getAll((result)=> {
+        res.json(result)
+    })
+})
+
+router.get('/admin/get/numMess', (req, res)=> {
+    data.getNumMess((result)=> {
+        res.json(result)
+    })
+})
+
 //*************************
 // Temps //
 //*************************

@@ -582,6 +582,35 @@ var deleteSerieTemp = function(id) {
 }
 
 //*************************
+// MESSAGE //
+//*************************
+var getAll = function(callback) {
+    messageModel.find({}, (err, docs)=> {
+        if(!err) {
+            callback(docs);
+        } else {
+            callback("Error in getting all message")
+        }
+    })
+}
+
+var markRead = function(id) {
+    messageModel.updateOne({_id: id}, {
+        readed: true
+    }).then(()=> {})
+}
+
+var getNumMess = function(callback) {
+    messageModel.find({readed: false}, (err, docs)=> {
+        if (!err) {
+            callback(docs.length)
+        } else {
+            callback("Error in getNumMess")
+        }
+    })
+}
+
+//*************************
 // PRIVATE //
 //*************************
 // Resolve Object -> found;
@@ -762,6 +791,11 @@ module.exports = {
     getSeriesbyIDS: getSeriesbyIDS,
     getSeriesbyTempId: getSeriesbyTempId,
     deleteSerieTemp: deleteSerieTemp,
+
+    // Message
+    getAll: getAll,
+    markRead: markRead,
+    getNumMess: getNumMess
 };
 
 

@@ -47,29 +47,33 @@ export class ApiService {
 
   public addFavMovie(data) {
       return this.http.post<any>(`${ConfigVariables.API_URL}user/movies/addFav`, data).pipe(map((res: any)=> {
-          this.updateUserLocal();
-          return res;
+          this.updateUserLocal((res)=> {
+              return res;
+          });
       }))
   }
 
   public addFavSerie(data) {
       return this.http.post<any>(`${ConfigVariables.API_URL}user/Series/addFav`, data).pipe(map((res: any)=> {
-          this.updateUserLocal();
-          return res;
+          this.updateUserLocal((res)=> {
+              return res;
+          });
       }))
   }
 
   public delFavMovie(data) {
       return this.http.post<any>(`${ConfigVariables.API_URL}user/movies/delFav`, data).pipe(map((res: any)=> {
-          this.updateUserLocal();
-          return res;
+          this.updateUserLocal((res)=> {
+              return res;
+          });
       }))
   }
 
   public delFavSerie(data) {
       return this.http.post<any>(`${ConfigVariables.API_URL}user/Series/delFav`, data).pipe(map((res: any)=> {
-          this.updateUserLocal();
-          return res;
+          this.updateUserLocal((res)=> {
+              return res;
+          });
       }))
   }
 
@@ -79,19 +83,22 @@ export class ApiService {
           title: title,
           mess: mess
       }).pipe(map((res: any)=> {
-          this.updateUserLocal();
-          return res;
+          this.updateUserLocal((res)=> {
+              return res;
+          });
       }))
   }
 
-  private updateUserLocal() {
+  private updateUserLocal(callback) {
       this.user = JSON.parse(localStorage.getItem('currentUser'))
       this.login(this.user.email, this.user.pass).pipe().subscribe(data=> {
-          if(typeof data == 'string') {
+              if(typeof data == 'string') {
 
-          } else {
-              localStorage.setItem('currentUser', JSON.stringify(data))
-          }
+              } else {
+                  localStorage.setItem('currentUser', JSON.stringify(data))
+                  console.log("User Updated!")
+                  callback(true);
+              }
       })
   }
 
@@ -102,6 +109,26 @@ export class ApiService {
       return this.http.post<any>(`${ConfigVariables.API_URL}admin/login`, {
           'email': email,
           'pass': pass
+      }).pipe(map((res: any)=> {
+          return res;
+      }))
+  }
+
+  public getMessage() {
+      return this.http.get(`${ConfigVariables.API_URL}admin/get/message`).pipe(map((res)=> {
+          return res;
+      }))
+  }
+
+  public getMessageNumber() {
+      return this.http.get(`${ConfigVariables.API_URL}admin/get/numMess`).pipe(map((res)=> {
+          return res;
+      }))
+  }
+
+  public readMessage(id) {
+      return this.http.post<any>(`${ConfigVariables.API_URL}admin/login`, {
+          'id': id
       }).pipe(map((res: any)=> {
           return res;
       }))

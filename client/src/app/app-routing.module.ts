@@ -20,6 +20,7 @@ import { ListFavComponent } from './components/list-fav/list-fav.component';
 import { AdminEditTempMoviesComponent } from './components/admin-edit-temp-movies/admin-edit-temp-movies.component';
 import { AdminEditTempSeriesComponent } from './components/admin-edit-temp-series/admin-edit-temp-series.component';
 import { ContactUsComponent } from './components/contact-us/contact-us.component';
+import { AdminNotificationComponent } from './components/admin-notification/admin-notification.component';
 
 const routes: Routes = [
     {
@@ -103,6 +104,10 @@ const routes: Routes = [
     {
         path: 'contact',
         component: ContactUsComponent
+    },
+    {
+        path: 'admin_notification',
+        component: AdminNotificationComponent
     },
 ];
 

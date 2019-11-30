@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../api.service'
+
 @Component({
   selector: 'app-admin-home',
   templateUrl: './admin-home.component.html',
@@ -9,6 +10,7 @@ export class AdminHomeComponent implements OnInit {
 
     tempM;
     tempS;
+    notification_num;
 
   constructor(
       private api: ApiService,
@@ -23,7 +25,10 @@ export class AdminHomeComponent implements OnInit {
           this.tempS = data
           console.log(this.tempS)
       })
-
+      this.api.getMessageNumber().pipe().subscribe(data=> {
+          this.notification_num = data
+          console.log(this.notification_num)
+      })
 
   }
 
