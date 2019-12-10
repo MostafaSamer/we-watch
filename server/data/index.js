@@ -767,6 +767,7 @@ module.exports = {
     delFavMovie: delFavMovie,
     fav_CounterMovies: fav_CounterMovies,
     unfav_CounterMovies: unfav_CounterMovies,
+    deleteMovieTemp: deleteMovieTemp,
 
     //  Series Temps
     insertTempSeries: insertTempSeries,
@@ -777,20 +778,19 @@ module.exports = {
     delFavSerie: delFavSerie,
     fav_CounterSeries: fav_CounterSeries,
     unfav_CounterSeries: unfav_CounterSeries,
+    deleteSerieTemp: deleteSerieTemp,
 
     // Movie Videos
     insertDataMovie: insertDataMovie,
     getDataOffsetMovie: getDataOffsetMovie,
     getMoviebyIDS: getMoviebyIDS,
     getMoviebyTempId: getMoviebyTempId,
-    deleteMovieTemp: deleteMovieTemp,
 
     // Series Videos
     insertDataSeries: insertDataSeries,
     getDataOffsetSeries: getDataOffsetSeries,
     getSeriesbyIDS: getSeriesbyIDS,
     getSeriesbyTempId: getSeriesbyTempId,
-    deleteSerieTemp: deleteSerieTemp,
 
     // Message
     getAll: getAll,

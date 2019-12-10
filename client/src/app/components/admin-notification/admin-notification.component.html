@@ -1,9 +1,8 @@
-<div class="" *ngFor="let x of mess">
-    {{x.from}}
-    {{x.data}}
-    {{x.readed}}
-    {{x.title}}
-    {{x.mess}}
+<div class="" *ngFor="let x of mess" (click)='show_message(x)'>
+    {{x.from}}<br>
+    {{x.data}}<br>
+    {{x.readed}}<br>
+    {{x.title}}<br>
     <br>
     ---------------------
     <br>

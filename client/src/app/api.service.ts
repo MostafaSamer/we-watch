@@ -127,7 +127,7 @@ export class ApiService {
   }
 
   public readMessage(id) {
-      return this.http.post<any>(`${ConfigVariables.API_URL}admin/login`, {
+      return this.http.post<any>(`${ConfigVariables.API_URL}admin/mark_read/message`, {
           'id': id
       }).pipe(map((res: any)=> {
           return res;

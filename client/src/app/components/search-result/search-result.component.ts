@@ -20,6 +20,7 @@ export class SearchResultComponent implements OnInit {
 
   ngOnInit() {
       this.searchName = this.router.snapshot.paramMap.get('name')
+      console.log(this.searchName)
       this.api.search({
           key: this.searchName
       }).pipe().subscribe(data=> {

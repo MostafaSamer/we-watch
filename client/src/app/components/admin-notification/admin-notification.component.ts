@@ -21,4 +21,19 @@ export class AdminNotificationComponent implements OnInit {
       })
   }
 
+  show_message(x) {
+      window.alert(x.from + '\n' +
+                    x.data + '\n' +
+                    x.title + '\n' +
+                    x.mess + '\n')
+                    // TODO: Handle Design Later
+    this.api.readMessage(x._id).pipe().subscribe(data=> {
+        if(data) {
+            this.mess[this.mess.indexOf(x)].readed = true;
+        } else {
+            // TODO: Handle Later
+        }
+    })
+  }
+
 }

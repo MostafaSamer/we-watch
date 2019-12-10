@@ -346,13 +346,15 @@ router.get('/admin/get/seriesTemp', (req, res)=> {
 })
 
 router.post('/admin/delete/movieTemp', (req,res)=> {
-    data.deleteMovieTemp(req.body.id);
-    res.json('Mostafa')
+    data.deleteMoviesTemp(req.body.id, (result)=> {
+        res.json(result)
+    });
 })
 
 router.post('/admin/delete/serieTemp', (req,res)=> {
-    data.deleteSerieTemp(req.body.id);
-    res.json('Mostafa')
+    data.deleteSeriesTemp(req.body.id, (result)=> {
+        res.json(result)
+    });
 })
 
 //*************************
