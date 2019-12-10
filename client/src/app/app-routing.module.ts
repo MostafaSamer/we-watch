@@ -21,6 +21,7 @@ import { AdminEditTempMoviesComponent } from './components/admin-edit-temp-movie
 import { AdminEditTempSeriesComponent } from './components/admin-edit-temp-series/admin-edit-temp-series.component';
 import { ContactUsComponent } from './components/contact-us/contact-us.component';
 import { AdminNotificationComponent } from './components/admin-notification/admin-notification.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 const routes: Routes = [
     {
@@ -109,6 +110,10 @@ const routes: Routes = [
         path: 'admin_notification',
         component: AdminNotificationComponent
     },
+    {
+        path: 'profile',
+        component: ProfileComponent
+    }
 ];
 
 @NgModule({

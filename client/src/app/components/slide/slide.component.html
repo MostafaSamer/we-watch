@@ -1,6 +1,6 @@
 <div class="container">
     <div class="row">
-        <h5>{{user.email}}</h5>
+        <a [routerLink]="['/profile']"><h5>{{user.email}}</h5></a>
     </div>
     <div class="row" *ngFor="let i of list">
         <a [routerLink]="i.link">{{i.title}}</a>
